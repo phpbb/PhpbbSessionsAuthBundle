@@ -1,0 +1,7 @@
+parameters:
+#    php_b_bphp_bb_sessions_auth.example.class: phpBB\phpBBSessionsAuthBundle\Example
+
+services:
+#    php_b_bphp_bb_sessions_auth.example:
+#        class: %php_b_bphp_bb_sessions_auth.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
