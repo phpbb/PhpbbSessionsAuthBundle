@@ -12,6 +12,10 @@
 			"homepage": "https://phpbb.com/"
 		}
 	],
+	"support": {
+        "irc": "irc://irc.freenode.org/phpbb-dev",
+        "issues": "https://www.phpbb.com/bugs/website/"
+    },
 	"require": {
 		"symfony/symfony": "2.1.*"
 	},
