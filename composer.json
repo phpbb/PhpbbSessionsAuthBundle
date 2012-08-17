@@ -17,7 +17,9 @@
         "issues": "https://www.phpbb.com/bugs/website/"
     },
 	"require": {
-		"symfony/symfony": "2.1.*"
+		"symfony/symfony": "2.1.*",
+        "doctrine/orm": ">=2.2.3,<2.4-dev",
+        "doctrine/doctrine-bundle": "dev-master"
 	},
 	"minimum-stability": "dev",
 	"autoload": {
