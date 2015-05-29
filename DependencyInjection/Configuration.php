@@ -35,6 +35,11 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('boardpath')->isRequired()->end()
                         ->end()
                     ->end()
+                    ->arrayNode('database')
+                        ->children()
+                            ->scalarNode('connection')->isRequired()->end()
+                            ->scalarNode('prefix')->isRequired()->end()
+                    ->end()
                 ->end()
         ;
 
