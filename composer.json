@@ -31,7 +31,7 @@
   },
   "minimum-stability": "dev",
   "autoload": {
-    "psr-4": {"phpBB\\sessionsAuthBundle\\": ""}
+    "psr-4": {"phpBB\\SessionsAuthBundle\\": ""}
   },
   "extra": {
     "branch-alias": {
