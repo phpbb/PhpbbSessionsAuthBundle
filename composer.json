@@ -17,12 +17,10 @@
         "issues": "https://www.phpbb.com/bugs/website/"
     },
 	"require": {
-		"symfony/symfony": "2.1.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "doctrine/common": "2.3.*",
-        "doctrine/dbal": "2.3.*",
-        "doctrine/orm": "2.3.*",
-        "doctrine/doctrine-bundle": "1.0.*"
+      "symfony/framework-bundle": "~2.3",
+      "symfony/twig-bundle": "~2.3",
+      "symfony/form": "~2.3",
+      "symfony/security-bundle": "~2.3"
 	},
     "require-dev": {
       "phpunit/phpunit": "4.1.*"
