@@ -2,8 +2,8 @@
 /**
  * 
  * @package phpBBSessionsAuthBundle
- * @copyright (c) 2012 phpBB Group
- * @license http://opensource.org/licenses/gpl-3.0.php GNU General Public License v3
+ * @copyright (c) phpBB Limited <https://www.phpbb.com>
+ * @license MIT
  * @author Unknown Bliss
  * 
  */
