@@ -1,38 +1,42 @@
 {
-	"name": "phpbb/phpbb-sessions-auth-bundle",
-	"description": "A symfony bundle that provides symfony the ability to integrate and share sessions with phpBB and use phpBB as the authentication provider.",
-	"keywords": ["phpBB", "intergration", "bridge"],
-	"type": "symfony-bundle",
-	"homepage": "http://www.phpbb.com",
-	"license": "GPL-3.0",
-	"authors": [
-		{
-			"name": "phpBB Group",
-			"email": "operations@phpbb.com",
-			"homepage": "https://phpbb.com/"
-		}
-	],
-	"support": {
-        "irc": "irc://irc.freenode.org/phpbb-dev",
-        "issues": "https://www.phpbb.com/bugs/website/"
-    },
-	"require": {
-      "symfony/framework-bundle": "~2.3",
-      "symfony/twig-bundle": "~2.3",
-      "symfony/form": "~2.3",
-      "symfony/security-bundle": "~2.3"
-	},
-    "require-dev": {
-      "phpunit/phpunit": "4.1.*"
-    },
-	"minimum-stability": "dev",
-	"autoload": {
-		"psr-0": { "phpBB\\phpBBSessionsAuthBundle": "" }
-	},
-	"target-dir": "phpBB/phpBBSessionsAuthBundle",
-	"extra": {
-		"branch-alias": {
-			"dev-master": "1.0.0-dev"
-		}
-	}
+  "name": "phpbb/phpbb-sessions-auth-bundle",
+  "description": "A symfony bundle that provides symfony the ability to integrate and share sessions with phpBB and use phpBB as the authentication provider.",
+  "keywords": [
+    "phpBB",
+    "intergration",
+    "bridge"
+  ],
+  "type": "symfony-bundle",
+  "homepage": "http://www.phpbb.com",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "phpBB Group",
+      "email": "operations@phpbb.com",
+      "homepage": "https://phpbb.com/"
+    }
+  ],
+  "support": {
+    "irc": "irc://irc.freenode.org/phpbb-dev",
+    "issues": "https://www.phpbb.com/bugs/website/"
+  },
+  "require": {
+    "symfony/framework-bundle": "~2.3",
+    "symfony/twig-bundle": "~2.3",
+    "symfony/form": "~2.3",
+    "symfony/security-bundle": "~2.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.1.*"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-0": {"phpBB\\phpBBSessionsAuthBundle": ""}
+  },
+  "target-dir": "phpBB/phpBBSessionsAuthBundle",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.0-dev"
+    }
+  }
 }
