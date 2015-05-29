@@ -27,6 +27,16 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('php_b_bphp_bb_sessions_auth');
+        $rootNode->children()
+                    ->arrayNode('phpbb')
+                        ->children()
+                            ->booleanNode('secure')->defaultFalse()->isRequired()->end()
+                            ->scalarNode('cookiename')->isRequired()->end()
+                            ->scalarNode('boardpath')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+        ;
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
