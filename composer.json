@@ -24,6 +24,9 @@
         "doctrine/orm": "2.3.*",
         "doctrine/doctrine-bundle": "1.0.*"
 	},
+    "require-dev": {
+      "phpunit/phpunit": "4.1.*"
+    },
 	"minimum-stability": "dev",
 	"autoload": {
 		"psr-0": { "phpBB\\phpBBSessionsAuthBundle": "" }
