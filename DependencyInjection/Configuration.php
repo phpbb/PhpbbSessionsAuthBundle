@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('phpbb');
+        $rootNode = $treeBuilder->root('phpbb_sessions_auth');
         $rootNode->children()
                     ->arrayNode('session')->isRequired()
                         ->children()
