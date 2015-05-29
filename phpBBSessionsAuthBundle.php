@@ -8,10 +8,10 @@
  * 
  */
 
-namespace phpBB\phpBBSessionsAuthBundle;
+namespace phpBB\SessionsAuthBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class phpBBphpBBSessionsAuthBundle extends Bundle
+class phpBBSessionsAuthBundle extends Bundle
 {
 }
