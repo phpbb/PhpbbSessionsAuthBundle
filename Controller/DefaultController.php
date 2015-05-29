@@ -8,7 +8,7 @@
  * 
  */
 
-namespace phpBB\phpBBSessionsAuthBundle\Controller;
+namespace phpBB\SessionsAuthBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

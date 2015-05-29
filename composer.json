@@ -11,9 +11,9 @@
   "license": "GPL-3.0",
   "authors": [
     {
-      "name": "phpBB Group",
-      "email": "operations@phpbb.com",
-      "homepage": "https://phpbb.com/"
+      "name": "phpBB Website team",
+      "email": "website@phpbb.com",
+      "homepage": "https://www.phpbb.com/"
     }
   ],
   "support": {
@@ -31,9 +31,8 @@
   },
   "minimum-stability": "dev",
   "autoload": {
-    "psr-0": {"phpBB\\phpBBSessionsAuthBundle": ""}
+    "psr-4": {"phpBB\\SessionsAuthBundle\\": ""}
   },
-  "target-dir": "phpBB/phpBBSessionsAuthBundle",
   "extra": {
     "branch-alias": {
       "dev-master": "1.0.0-dev"
