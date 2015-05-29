@@ -8,7 +8,7 @@
  * 
  */
 
-namespace phpBB\phpBBSessionsAuthBundle\DependencyInjection;
+namespace phpBB\SessionsAuthBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
