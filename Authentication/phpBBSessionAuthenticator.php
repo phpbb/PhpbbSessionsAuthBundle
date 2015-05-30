@@ -44,9 +44,6 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
 
     public function createToken(Request $request, $providerKey)
     {
-        if ($request->cookies->get($this->cookiename . '_sid') == null) {
-            return null;
-        }
         return new phpBBToken('anon.', $providerKey);
     }
 
