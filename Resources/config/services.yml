@@ -6,3 +6,4 @@ services:
         arguments: [%phpbb_sessions_auth.database.prefix%]
         tags:
             - { name: doctrine.event_subscriber }
+

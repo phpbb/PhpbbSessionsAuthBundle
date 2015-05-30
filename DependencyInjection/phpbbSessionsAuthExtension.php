@@ -36,3 +36,4 @@ class phpbbSessionsAuthExtension extends Extension
     }
 }
 
+

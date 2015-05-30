@@ -18,3 +18,4 @@ class phpBBToken extends PreAuthenticatedToken{
         parent::__construct($user, $credentials, $providerKey, $roles);
     }
 }
+
