@@ -10,12 +10,75 @@
 namespace phpBB\SessionsAuthBundle\Tokens;
 
 
+use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 
-class phpBBToken extends PreAuthenticatedToken{
-    public function __construct($user, $credentials, $providerKey, array $roles = array())
+class phpBBToken extends AbstractToken {
+    private $providerKey;
+
+    /**
+     * Constructor.
+     * @param array|\Symfony\Component\Security\Core\Role\RoleInterface[] $user
+     * @param $providerKey
+     * @param array $roles
+     */
+    public function __construct($user, $providerKey, array $roles = array())
     {
-        parent::__construct($user, $credentials, $providerKey, $roles);
+        parent::__construct($roles);
+
+        if (empty($providerKey)) {
+            throw new \InvalidArgumentException('$providerKey must not be empty.');
+        }
+
+        $this->setUser($user);
+        $this->providerKey = $providerKey;
+
+        if ($roles) {
+            $this->setAuthenticated(true);
+        }
+    }
+
+    /**
+     * Returns the provider key.
+     *
+     * @return string The provider key
+     */
+    public function getProviderKey()
+    {
+        return $this->providerKey;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCredentials()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function eraseCredentials()
+    {
+        parent::eraseCredentials();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize(array($this->providerKey, parent::serialize()));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($str)
+    {
+        list($this->providerKey, $parentStr) = unserialize($str);
+        parent::unserialize($parentStr);
     }
 }
 

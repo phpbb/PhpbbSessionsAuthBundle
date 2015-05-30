@@ -7,3 +7,9 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    phpbb.sessionsauthbundle.phpbb_authenticator:
+        class:  phpBB\SessionsAuthBundle\Authentication\phpBBSessionAuthenticator
+        public: false
+        arguments:
+            - %phpbb_sessions_auth.database.cookiename%
+            - @request_stack
