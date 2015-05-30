@@ -12,11 +12,14 @@ namespace phpBB\SessionsAuthBundle\Authentication;
 use phpBB\SessionsAuthBundle\Tokens\phpBBToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
-class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface{
+class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface {
 
     /** @var  String */
     private $cookiename;
@@ -46,4 +49,10 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface{
         }
         return new phpBBToken('anon.', $providerKey);
     }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        return new Response("Authentication Failed.", 403);
+    }
 }
+

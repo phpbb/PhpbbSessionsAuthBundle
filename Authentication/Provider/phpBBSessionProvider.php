@@ -61,3 +61,4 @@ class phpBBSessionProvider {
         return $token instanceof phpBBToken && $this->providerKey === $token->getProviderKey();
     }
 }
+
