@@ -6,7 +6,7 @@
  * @license MIT
  *
  */
-namespace phpbb\SessionsAuthBundle\Entity;
+namespace phpBB\SessionsAuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
