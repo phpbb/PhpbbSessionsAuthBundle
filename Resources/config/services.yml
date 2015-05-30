@@ -1,3 +1,8 @@
 parameters:
 
 services:
+    phpbb.sessionsauthbundle.tblprefix_subscriber:
+        class: phpbb\SessionsAuthBundle\Subscriber\TablePrefixSubscriber
+        arguments: [%phpbb_sessions_auth.database.prefix%]
+        tags:
+            - { name: doctrine.event_subscriber }
