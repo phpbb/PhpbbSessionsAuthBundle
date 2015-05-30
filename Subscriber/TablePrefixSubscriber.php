@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 /**
  * The table prefix for the users table is defined within the configuration for this bundle.
  * This Subscriber makes sure the table name is
- * @package phpbb\SessionAuthBundle\Subscriber
+ * @package phpbb\SessionsAuthBundle\Subscriber
  */
 class TablePrefixSubscriber implements EventSubscriber{
 
