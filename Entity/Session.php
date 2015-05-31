@@ -65,7 +65,5 @@ class Session
         $this->user = $user;
     }
 
-
-
 }
 

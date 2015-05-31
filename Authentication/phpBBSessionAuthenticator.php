@@ -11,6 +11,7 @@ namespace phpBB\SessionsAuthBundle\Authentication;
 
 use Doctrine\ORM\EntityManager;
 use phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider;
+use phpBB\SessionsAuthBundle\Entity\Session;
 use phpBB\SessionsAuthBundle\Tokens\phpBBToken;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,14 +27,16 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerI
 
 class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
-    /** @var  string */
-    private $cookiename;
+    const ANONYMOUS = 1;
 
     /** @var  string */
-    private $boardurl;
+    private $cookieName;
 
     /** @var  string */
-    private $loginpage;
+    private $boardUrl;
+
+    /** @var  string */
+    private $loginPage;
 
     /** @var RequestStack  */
     private $requestStack;
@@ -42,7 +45,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
     private $container;
 
     /** @var  string */
-    private $dbconnection;
+    private $dbConnection;
 
     /**
      * @param $cookiename string
@@ -51,12 +54,13 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      * @param $requestStack RequestStack
      * @param ContainerInterface $container
      */
-    public function __construct($cookiename, $boardurl, $loginpage, $dbconnection, RequestStack $requestStack, ContainerInterface $container)
+    public function __construct($cookiename, $boardurl, $loginpage, $dbconnection,
+                                RequestStack $requestStack, ContainerInterface $container)
     {
-        $this->cookiename   = $cookiename;
-        $this->boardurl     = $boardurl;
-        $this->loginpage    = $loginpage;
-        $this->dbconnection = $dbconnection;
+        $this->cookieName   = $cookiename;
+        $this->boardUrl     = $boardurl;
+        $this->loginPage    = $loginpage;
+        $this->dbConnection = $dbconnection;
         $this->requestStack = $requestStack;
         $this->container    = $container;
     }
@@ -65,7 +69,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      * @param TokenInterface $token
      * @param UserProviderInterface $userProvider
      * @param $providerKey
-     * @return AnonymousToken
+     * @return null|
      */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
@@ -79,17 +83,31 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
             );
         }
 
-        $session_id = $this->requestStack->getCurrentRequest()->cookies->get($this->cookiename . '_sid');
+        $sessionId = $this->requestStack->getCurrentRequest()->cookies->get($this->cookieName . '_sid');
 
-        if (empty($session_id))
+        if (empty($sessionId))
         {
             return null; // We can't authenticate if no SID is available.
         }
 
         /** @var EntityManager $em */
-        $em = $this->container->get('doctrine')->getManager($this->dbconnection);
+        $em = $this->container->get('doctrine')->getManager($this->dbConnection);
 
-        $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findById($session_id);
+        /** @var Session $session */
+        $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findById($sessionId);
+
+        if (!$session || $session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS) {
+            return null;
+        }
+
+        // We have a valid user, which is not the guest user.
+
+        $roles = array();
+        // @TODO: Assign roles.
+
+        $token = new phpBBToken($token->getUser(), $providerKey, $roles);
+
+        return $token;
     }
 
     /**
@@ -121,7 +139,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        return new RedirectResponse($this->boardurl . $this->loginpage);
+        return new RedirectResponse($this->boardUrl . $this->loginPage);
     }
 }
 
