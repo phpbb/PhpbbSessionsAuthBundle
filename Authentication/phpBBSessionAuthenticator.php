@@ -89,7 +89,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         /** @var EntityManager $em */
         $em = $this->container->get('doctrine')->getManager($this->dbconnection);
 
-        $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->find($session_id);
+        $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findById($session_id);
     }
 
     /**
