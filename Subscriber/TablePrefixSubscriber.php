@@ -19,7 +19,8 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  * This Subscriber makes sure the table name is
  * @package phpbb\SessionsAuthBundle\Subscriber
  */
-class TablePrefixSubscriber implements EventSubscriber{
+class TablePrefixSubscriber implements EventSubscriber
+{
 
     /**
      * Namespace the entity is in
@@ -89,7 +90,8 @@ class TablePrefixSubscriber implements EventSubscriber{
                     $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];
 
                     // Do not re-apply the prefix when the association is already prefixed
-                    if (false !== strpos($mappedTableName, $this->prefix)) {
+                    if (false !== strpos($mappedTableName, $this->prefix))
+                    {
                         continue;
                     }
 
