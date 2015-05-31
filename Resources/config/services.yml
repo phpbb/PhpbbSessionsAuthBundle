@@ -14,7 +14,9 @@ services:
             - %phpbb_sessions_auth.database.cookiename%
             - %phpbb_sessions_auth.database.boardurl%
             - %phpbb_sessions_auth.database.loginpage%
+            - %phpbb_sessions_auth.database.connection%
             - @request_stack
+            - @service_container
 
     phpbb.sessionsauthbundle.phpbb_user_provider:
         class: phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider

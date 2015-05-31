@@ -9,8 +9,10 @@
 namespace phpBB\SessionsAuthBundle\Authentication;
 
 
+use Doctrine\ORM\EntityManager;
 use phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider;
 use phpBB\SessionsAuthBundle\Tokens\phpBBToken;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -36,19 +38,27 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
     /** @var RequestStack  */
     private $requestStack;
 
+    /** @var ContainerInterface  */
+    private $container;
+
+    /** @var  string */
+    private $dbconnection;
+
     /**
      * @param $cookiename string
      * @param $boardurl  string
      * @param $loginpage string
      * @param $requestStack RequestStack
+     * @param ContainerInterface $container
      */
-    public function __construct($cookiename, $boardurl, $loginpage, RequestStack $requestStack)
+    public function __construct($cookiename, $boardurl, $loginpage, $dbconnection, RequestStack $requestStack, ContainerInterface $container)
     {
         $this->cookiename   = $cookiename;
         $this->boardurl     = $boardurl;
         $this->loginpage    = $loginpage;
+        $this->dbconnection = $dbconnection;
         $this->requestStack = $requestStack;
-
+        $this->container    = $container;
     }
 
     /**
@@ -73,11 +83,13 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
 
         if (empty($session_id))
         {
-            return new AnonymousToken('', $token->getUser(), $token->getRoles());
+            return null; // We can't authenticate if no SID is available.
         }
 
+        /** @var EntityManager $em */
+        $em = $this->container->get('doctrine')->getManager($this->dbconnection);
 
-//        AnonymousToken
+        $session = $em->getRepository('phpBBSessionsAuthBundle:Session')->find($session_id);
     }
 
     /**
