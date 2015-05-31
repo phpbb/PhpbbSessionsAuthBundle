@@ -25,11 +25,11 @@ class TablePrefixSubscriber implements EventSubscriber
     /**
      * Namespace the entity is in
      */
-    const ENTITY_NAMESPACE = 'phpbb\\SessionAuthBundle\\Entity';
+    private static $ENTITY_NAMESPACE = 'phpBB\\SessionsAuthBundle\\Entity';
     /**
      * Entity that will receive the prefix
      */
-    const ENTITY_NAME = 'User';
+    private static $ENTITY_NAME;
 
     /**
      * @var string
@@ -44,6 +44,7 @@ class TablePrefixSubscriber implements EventSubscriber
     public function __construct($prefix)
     {
         $this->prefix = (string) $prefix;
+        self::$ENTITY_NAME = array(self::$ENTITY_NAMESPACE . '\\User', self::$ENTITY_NAMESPACE . '\\Session');
     }
 
     /**
@@ -74,13 +75,13 @@ class TablePrefixSubscriber implements EventSubscriber
             return;
         }
 
-        if ($classMetadata->namespace == self::ENTITY_NAMESPACE && $classMetadata->name == self::ENTITY_NAME)
+        if ($classMetadata->namespace == self::$ENTITY_NAMESPACE && in_array($classMetadata->name, self::$ENTITY_NAME))
         {
             // Do not re-apply the prefix when the table is already prefixed
             if (false === strpos($classMetadata->getTableName(), $this->prefix))
             {
                 $tableName = $this->prefix . $classMetadata->getTableName();
-                $classMetadata->setPrimaryTable(['name' => $tableName]);
+                $classMetadata->setPrimaryTable(array('name' => $tableName));
             }
 
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping)
