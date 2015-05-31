@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->booleanNode('secure')->defaultFalse()->isRequired()->end()
                             ->scalarNode('cookiename')->isRequired()->end()
-                            ->scalarNode('boardpath')->isRequired()->end()
+                            ->scalarNode('boardurl')->isRequired()->end()
                         ->end()
                     ->end()
                     ->arrayNode('database')

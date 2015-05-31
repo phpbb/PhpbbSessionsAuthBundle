@@ -31,6 +31,7 @@ class phpbbSessionsAuthExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('phpbb_sessions_auth.database.prefix', $config['database']['prefix']);
         $container->setParameter('phpbb_sessions_auth.database.cookiename', $config['session']['cookiename']);
+        $container->setParameter('phpbb_sessions_auth.database.boardurl', $config['session']['boardurl']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

@@ -10,6 +10,7 @@ namespace phpBB\SessionsAuthBundle\Authentication;
 
 
 use phpBB\SessionsAuthBundle\Tokens\phpBBToken;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,32 +25,59 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
     /** @var  String */
     private $cookiename;
 
-    /** @var null|Request  */
-    private $request;
-    public function __construct($cookiename, RequestStack $requestStack) {
+    /** @var  String */
+    private $boardurl;
+
+    /**
+     * @param $cookiename
+     * @param $boardurl
+     */
+    public function __construct($cookiename, $boardurl) {
         $this->cookiename = $cookiename;
-        $this->request = $requestStack->getCurrentRequest();
+        $this->boardurl = $boardurl;
 
     }
 
+    /**
+     * @param TokenInterface $token
+     * @param UserProviderInterface $userProvider
+     * @param $providerKey
+     */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
         // TODO: Implement authenticateToken() method.
     }
 
+    /**
+     * @param TokenInterface $token
+     * @param $providerKey
+     * @return bool
+     */
     public function supportsToken(TokenInterface $token, $providerKey)
     {
         return $token instanceof phpBBToken && $token->getProviderKey() === $providerKey;
     }
 
+    /**
+     * @param Request $request
+     * @param $providerKey
+     * @return phpBBToken
+     */
     public function createToken(Request $request, $providerKey)
     {
         return new phpBBToken('anon.', $providerKey);
     }
 
+    /**
+     * On a authentication failure we redirect to the phpBB Login page.
+     *
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return RedirectResponse
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        return new Response("Authentication Failed.", 403);
+        return new RedirectResponse($this->boardurl . 'ucp.php?mode=login');
     }
 }
 

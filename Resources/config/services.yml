@@ -12,4 +12,5 @@ services:
         public: false
         arguments:
             - %phpbb_sessions_auth.database.cookiename%
-            - @request_stack
+            - %phpbb_sessions_auth.database.boardurl%
+
