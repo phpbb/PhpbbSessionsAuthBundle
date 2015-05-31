@@ -20,7 +20,7 @@ class phpBBToken extends AbstractToken
 
     /**
      * Constructor
-     * 
+     *
      * @param string|UserInterface $user
      * @param string $providerKey
      * @param array $roles

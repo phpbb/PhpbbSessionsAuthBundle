@@ -13,6 +13,7 @@ services:
         arguments:
             - %phpbb_sessions_auth.database.cookiename%
             - %phpbb_sessions_auth.database.boardurl%
+            - %phpbb_sessions_auth.database.loginpage%
 
     phpbb.sessionsauthbundle.phpbb_user_provider:
         class: phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider

@@ -22,20 +22,25 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerI
 
 class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
-    /** @var  String */
+    /** @var  string */
     private $cookiename;
 
-    /** @var  String */
+    /** @var  string */
     private $boardurl;
 
+    /** @var  string */
+    private $loginpage;
+
     /**
-     * @param $cookiename
-     * @param $boardurl
+     * @param $cookiename string
+     * @param $boardurl  string
+     * @param $loginpage string
      */
-    public function __construct($cookiename, $boardurl)
+    public function __construct($cookiename, $boardurl, $loginpage)
     {
         $this->cookiename = $cookiename;
         $this->boardurl   = $boardurl;
+        $this->loginpage  = $loginpage;
 
     }
 

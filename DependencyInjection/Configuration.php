@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                             ->booleanNode('secure')->defaultFalse()->isRequired()->end()
                             ->scalarNode('cookiename')->isRequired()->end()
                             ->scalarNode('boardurl')->isRequired()->end()
+                            ->scalarNode('loginpage')->defaultValue('ucp.php?mode=login')->cannotBeEmpty()->end()
                         ->end()
                     ->end()
                     ->arrayNode('database')
