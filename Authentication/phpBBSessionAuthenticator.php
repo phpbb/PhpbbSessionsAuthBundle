@@ -17,11 +17,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
@@ -69,7 +67,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      * @param TokenInterface $token
      * @param UserProviderInterface $userProvider
      * @param $providerKey
-     * @return null|
+     * @return null|phpBBToken
      */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
@@ -105,7 +103,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
 
         if ($session->getUser()->getId() != $userId)
         {
-            throw new \InvalidArgumentException("Incorrect session cookie found with username");
+            throw new \InvalidArgumentException('Incorrect session cookie found with username');
         }
         // @TODO: IP validation.
 
