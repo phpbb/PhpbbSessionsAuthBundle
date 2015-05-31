@@ -83,7 +83,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        return new RedirectResponse($this->boardurl . 'ucp.php?mode=login');
+        return new RedirectResponse($this->boardurl . $this->loginpage);
     }
 }
 
