@@ -114,7 +114,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         $roles = array();
         // @TODO: Assign roles.
 
-        $token = new phpBBToken($token->getUser(), $providerKey, $roles);
+        $token = new phpBBToken($session->getUser(), $providerKey, $roles);
 
         return $token;
     }
