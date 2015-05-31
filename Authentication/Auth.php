@@ -23,19 +23,19 @@ namespace phpBB\SessionsAuthBundle\Authentication;
  * If there is no user_permissions field, it will result in a exception.
  *
  */
-class auth
+class Auth
 {
-    private $acl           = array();
-    private $cache         = array();
-    private $aclOptions   = array();
+    private $acl         = array();
+    private $cache       = array();
+    private $aclOptions  = array();
     private $aclForumIds = false;
 
     /**
      * Init permissions
-     * @param $user_permissions string
+     * @param $userPermissions string
      * @throws \Exception
      */
-    public function acl($user_permissions)
+    public function acl($userPermissions)
     {
         $this->acl         = array();
         $this->cache       = array();
@@ -72,13 +72,13 @@ class auth
             $cache->put('_acl_options', $this->aclOptions);
         }
 
-        if (!trim($user_permissions))
+        if (!trim($userPermissions))
         {
             throw new \Exception('We require user_permissions set by phpBB.');
         }
 
         // Fill ACL array
-        $this->_fill_acl($user_permissions);
+        $this->_fill_acl($userPermissions);
 
         // Verify bitstring length with options provided...
         $renew         = false;
