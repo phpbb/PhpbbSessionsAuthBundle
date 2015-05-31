@@ -36,6 +36,11 @@ matrix:
 
 sudo: false
 
+addons:
+  apt:
+    packages:
+    - parallel
+
 cache:
   directories:
     - $HOME/.composer/cache
@@ -48,6 +53,7 @@ install: composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
 
 script:
   - vendor/bin/phpunit --coverage-text
+  - find . -path ./vendor -prune -o -type f -name "*.php" | parallel --gnu --keep-order 'php -l {} > /dev/null' || exit 1
 
 notifications:
   email: website@phpbb.com
