@@ -32,7 +32,8 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      * @param $cookiename
      * @param $boardurl
      */
-    public function __construct($cookiename, $boardurl) {
+    public function __construct($cookiename, $boardurl)
+    {
         $this->cookiename = $cookiename;
         $this->boardurl   = $boardurl;
 

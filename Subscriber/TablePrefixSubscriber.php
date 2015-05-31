@@ -67,20 +67,25 @@ class TablePrefixSubscriber implements EventSubscriber{
         /** @var ClassMetadata $classMetadata */
         $classMetadata = $args->getClassMetadata();
 
-        if (empty($this->prefix)) {
+        if (empty($this->prefix))
+        {
             // Prefix is empty, we don't need to do anything;
             return;
         }
 
-        if ($classMetadata->namespace == self::ENTITY_NAMESPACE && $classMetadata->name == self::ENTITY_NAME) {
+        if ($classMetadata->namespace == self::ENTITY_NAMESPACE && $classMetadata->name == self::ENTITY_NAME)
+        {
             // Do not re-apply the prefix when the table is already prefixed
-            if (false === strpos($classMetadata->getTableName(), $this->prefix)) {
+            if (false === strpos($classMetadata->getTableName(), $this->prefix))
+            {
                 $tableName = $this->prefix . $classMetadata->getTableName();
                 $classMetadata->setPrimaryTable(['name' => $tableName]);
             }
 
-            foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-                if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && $mapping['isOwningSide'] == true) {
+            foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping)
+            {
+                if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && $mapping['isOwningSide'] == true)
+                {
                     $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];
 
                     // Do not re-apply the prefix when the association is already prefixed

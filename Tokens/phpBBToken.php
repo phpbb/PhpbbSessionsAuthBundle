@@ -26,14 +26,16 @@ class phpBBToken extends AbstractToken {
     {
         parent::__construct($roles);
 
-        if (empty($providerKey)) {
+        if (empty($providerKey))
+        {
             throw new \InvalidArgumentException('$providerKey must not be empty.');
         }
 
         $this->setUser($user);
         $this->providerKey = $providerKey;
 
-        if (!empty($roles)) {
+        if (!empty($roles))
+        {
             $this->setAuthenticated(true);
         }
     }

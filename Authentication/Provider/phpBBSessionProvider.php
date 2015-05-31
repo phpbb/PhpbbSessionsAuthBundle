@@ -19,8 +19,10 @@ class phpBBSessionProvider
 {
     /** @var  UserProviderInterface */
     private $userProvider;
+
     /** @var  UserCheckerInterface */
     private $userChecker;
+
     /** @var  string */
     private $providerKey;
 
@@ -43,10 +45,12 @@ class phpBBSessionProvider
      */
     public function authenticate(TokenInterface $token)
     {
-        if (!$this->supports($token)) {
+        if (!$this->supports($token))
+        {
             return;
         }
-        if (!$user = $token->getUser()) {
+        if (!$user = $token->getUser())
+        {
             throw new BadCredentialsException('The required token is not found.');
         }
         $user = $this->userProvider->loadUserByUsername($user);
