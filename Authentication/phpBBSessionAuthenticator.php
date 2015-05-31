@@ -96,12 +96,10 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findById($sessionId);
 
 
-        if (
-                !$session ||
-                $session->getUser() == null ||
-                ($session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS) ||
-                $session->getUser()->getId() != $userId
-            )
+        if (!$session ||
+            $session->getUser() == null ||
+            ($session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS) ||
+            $session->getUser()->getId() != $userId)
         {
             return null;
         }
@@ -110,8 +108,8 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
 
         if (strpos($userIp, ':') !== false && strpos($session->getIp(), ':') !== false)
         {
-            $s_ip = short_ipv6($session->getIp(), 3);
-            $u_ip = short_ipv6($userIp, 3);
+            $s_ip = $this->shortIpv6($session->getIp(), 3);
+            $u_ip = $this->shortIpv6($userIp, 3);
         }
         else
         {
@@ -125,7 +123,10 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
             // We have a valid user, which is not the guest user.
 
             $roles = array();
-            // @TODO: Assign roles.
+
+            if ($session->getUser()->isBot()) {
+                $roles[] = 'ROLE_BOT';
+            }
 
             $token = new phpBBToken($session->getUser(), $providerKey, $roles);
 
@@ -175,12 +176,12 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      *
      * @copyright (c) phpBB Limited <https://www.phpbb.com>
      * @license GNU General Public License, version 2 (GPL-2.0)
-     * 
+     *
      * @param $ip
      * @param $length
      * @return mixed|string
      */
-    function short_ipv6($ip, $length)
+    private function shortIpv6($ip, $length)
     {
         if ($length < 1)
         {

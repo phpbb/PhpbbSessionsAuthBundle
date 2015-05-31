@@ -46,6 +46,12 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var boolean
+     * @ORM\Column(type="integer", name="is_bot")
+     */
+    private $bot;
+
+    /**
      * @var Role[]
      */
     private $roles;
@@ -180,6 +186,21 @@ class User implements UserInterface
         $this->sessions = $sessions;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isBot()
+    {
+        return $this->bot;
+    }
+
+    /**
+     * @param boolean $bot
+     */
+    public function setBot($bot)
+    {
+        $this->bot = $bot;
+    }
 
 }
 
