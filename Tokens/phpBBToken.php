@@ -15,12 +15,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class phpBBToken extends AbstractToken
 {
+    /** @var  String */
     private $providerKey;
 
     /**
-     * Constructor.
+     * Constructor
+     * 
      * @param string|UserInterface $user
-     * @param $providerKey
+     * @param string $providerKey
      * @param array $roles
      */
     public function __construct($user, $providerKey, array $roles = array())
