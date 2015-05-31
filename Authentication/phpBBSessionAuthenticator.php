@@ -96,25 +96,43 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findById($sessionId);
 
 
-        if (!$session || $session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS)
+        if (
+                !$session ||
+                $session->getUser() == null ||
+                ($session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS) ||
+                $session->getUser()->getId() != $userId
+            )
         {
             return null;
         }
 
-        if ($session->getUser()->getId() != $userId)
+        $userIp = $this->requestStack->getCurrentRequest()->getClientIp();
+
+        if (strpos($userIp, ':') !== false && strpos($session->getIp(), ':') !== false)
         {
-            throw new \InvalidArgumentException('Incorrect session cookie found with username');
+            $s_ip = short_ipv6($session->getIp(), 3);
+            $u_ip = short_ipv6($userIp, 3);
         }
-        // @TODO: IP validation.
+        else
+        {
+            $s_ip = implode('.', array_slice(explode('.', $session->getIp()), 0, 3));
+            $u_ip = implode('.', array_slice(explode('.', $userIp), 0, 3));
+        }
 
-        // We have a valid user, which is not the guest user.
+        // Assume session length of 3600
+        if ($u_ip === $s_ip && $session->getTime() < time() - 3600 + 60)
+        {
+            // We have a valid user, which is not the guest user.
 
-        $roles = array();
-        // @TODO: Assign roles.
+            $roles = array();
+            // @TODO: Assign roles.
 
-        $token = new phpBBToken($session->getUser(), $providerKey, $roles);
+            $token = new phpBBToken($session->getUser(), $providerKey, $roles);
 
-        return $token;
+            return $token;
+        }
+        return null;
+
     }
 
     /**
@@ -148,5 +166,44 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
     {
         return new RedirectResponse($this->boardUrl . $this->loginPage);
     }
+
+    /**
+     * Returns the first block of the specified IPv6 address and as many additional
+     * ones as specified in the length paramater.
+     * If length is zero, then an empty string is returned.
+     * If length is greater than 3 the complete IP will be returned
+     *
+     * @copyright (c) phpBB Limited <https://www.phpbb.com>
+     * @license GNU General Public License, version 2 (GPL-2.0)
+     * 
+     * @param $ip
+     * @param $length
+     * @return mixed|string
+     */
+    function short_ipv6($ip, $length)
+    {
+        if ($length < 1)
+        {
+            return '';
+        }
+
+        // extend IPv6 addresses
+        $blocks = substr_count($ip, ':') + 1;
+        if ($blocks < 9)
+        {
+            $ip = str_replace('::', ':' . str_repeat('0000:', 9 - $blocks), $ip);
+        }
+        if ($ip[0] == ':')
+        {
+            $ip = '0000' . $ip;
+        }
+        if ($length < 4)
+        {
+            $ip = implode(':', array_slice(explode(':', $ip), 0, 1 + $length));
+        }
+
+        return $ip;
+    }
+
 }
 

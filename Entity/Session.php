@@ -41,6 +41,12 @@ class Session
     private $ip;
 
     /**
+     * @var
+     * @ORM\Column(type="integer", name="session_time")
+     */
+    private $time;
+
+    /**
      * @return string
      */
     public function getId()
@@ -86,6 +92,22 @@ class Session
     public function setIp($ip)
     {
         $this->ip = $ip;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    /**
+     * @param mixed $time
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
     }
 
 }
