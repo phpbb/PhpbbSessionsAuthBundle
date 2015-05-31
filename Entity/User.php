@@ -17,7 +17,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @package phpbb\SessionsAuthBundle\Entity
  * @ORM\Entity(readOnly=true)
  */
-class User implements UserInterface{
+class User implements UserInterface
+{
     /**
      * @var
      * @ORM\Column(type="integer", name="user_id")
