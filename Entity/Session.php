@@ -34,6 +34,13 @@ class Session
     private $user;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", name="user_ip")
+     *
+     */
+    private $ip;
+
+    /**
      * @return string
      */
     public function getId()
@@ -63,6 +70,22 @@ class Session
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * @param string $ip
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
     }
 
 }

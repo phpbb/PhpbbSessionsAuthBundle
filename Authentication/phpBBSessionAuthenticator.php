@@ -84,6 +84,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         }
 
         $sessionId = $this->requestStack->getCurrentRequest()->cookies->get($this->cookieName . '_sid');
+        $userId    = $this->requestStack->getCurrentRequest()->cookies->get($this->cookieName . '_u');
 
         if (empty($sessionId))
         {
@@ -96,9 +97,17 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         /** @var Session $session */
         $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findById($sessionId);
 
-        if (!$session || $session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS) {
+
+        if (!$session || $session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS)
+        {
             return null;
         }
+
+        if ($session->getUser()->getId() != $userId)
+        {
+            throw new \InvalidArgumentException("Incorrect session cookie found with username");
+        }
+        // @TODO: IP validation.
 
         // We have a valid user, which is not the guest user.
 
