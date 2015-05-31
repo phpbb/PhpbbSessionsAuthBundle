@@ -25,10 +25,10 @@ namespace phpBB\SessionsAuthBundle\Authentication;
  */
 class auth
 {
-    var $acl = array();
-    var $cache = array();
-    var $acl_options = array();
-    var $acl_forum_ids = false;
+    private $acl           = array();
+    private $cache         = array();
+    private $aclOptions   = array();
+    private $aclForumIds = false;
 
     /**
      * Init permissions
@@ -37,54 +37,57 @@ class auth
      */
     public function acl($user_permissions)
     {
-        $this->acl = $this->cache = $this->acl_options = array();
-        $this->acl_forum_ids = false;
+        $this->acl         = array();
+        $this->cache       = array();
+        $this->aclOptions  = array();
+        $this->aclForumIds = false;
 
-        if (($this->acl_options = $cache->get('_acl_options')) === false)
+        if (($this->aclOptions = $cache->get('_acl_options')) === false)
         {
             $sql = 'SELECT auth_option_id, auth_option, is_global, is_local
 				FROM ' . ACL_OPTIONS_TABLE . '
 				ORDER BY auth_option_id';
             $result = $db->sql_query($sql);
 
-            $global = $local = 0;
-            $this->acl_options = array();
+            $global = 0;
+            $local  = 0;
+            $this->aclOptions = array();
             while ($row = $db->sql_fetchrow($result))
             {
                 if ($row['is_global'])
                 {
-                    $this->acl_options['global'][$row['auth_option']] = $global++;
+                    $this->aclOptions['global'][$row['auth_option']] = $global++;
                 }
 
                 if ($row['is_local'])
                 {
-                    $this->acl_options['local'][$row['auth_option']] = $local++;
+                    $this->aclOptions['local'][$row['auth_option']] = $local++;
                 }
 
-                $this->acl_options['id'][$row['auth_option']] = (int) $row['auth_option_id'];
-                $this->acl_options['option'][(int) $row['auth_option_id']] = $row['auth_option'];
+                $this->aclOptions['id'][$row['auth_option']]              = (int) $row['auth_option_id'];
+                $this->aclOptions['option'][(int) $row['auth_option_id']] = $row['auth_option'];
             }
             $db->sql_freeresult($result);
 
-            $cache->put('_acl_options', $this->acl_options);
+            $cache->put('_acl_options', $this->aclOptions);
         }
 
         if (!trim($user_permissions))
         {
-            throw new \Exception("We require user_permissions set by phpBB.");
+            throw new \Exception('We require user_permissions set by phpBB.');
         }
 
         // Fill ACL array
         $this->_fill_acl($user_permissions);
 
         // Verify bitstring length with options provided...
-        $renew = false;
-        $global_length = sizeof($this->acl_options['global']);
-        $local_length = sizeof($this->acl_options['local']);
+        $renew         = false;
+        $global_length = sizeof($this->aclOptions['global']);
+        $local_length  = sizeof($this->aclOptions['local']);
 
         // Specify comparing length (bitstring is padded to 31 bits)
         $global_length = ($global_length % 31) ? ($global_length - ($global_length % 31) + 31) : $global_length;
-        $local_length = ($local_length % 31) ? ($local_length - ($local_length % 31) + 31) : $local_length;
+        $local_length  = ($local_length % 31) ? ($local_length - ($local_length % 31) + 31) : $local_length;
 
         // You thought we are finished now? Noooo... now compare them.
         foreach ($this->acl as $forum_id => $bitstring)
@@ -107,15 +110,15 @@ class auth
 
     /**
      * Fill ACL array with relevant bitstrings from user_permissions column
-     * @param $user_permissions
+     * @param $userPermissions
      */
-    private function _fill_acl($user_permissions)
+    private function _fill_acl($userPermissions)
     {
-        $seq_cache = array();
-        $this->acl = array();
-        $user_permissions = explode("\n", $user_permissions);
+        $seq_cache       = array();
+        $this->acl       = array();
+        $userPermissions = explode("\n", $userPermissions);
 
-        foreach ($user_permissions as $f => $seq)
+        foreach ($userPermissions as $f => $seq)
         {
             if ($seq)
             {
@@ -134,12 +137,14 @@ class auth
                     }
                     else
                     {
-                        $converted = $seq_cache[$subseq] = str_pad(base_convert($subseq, 36, 2), 31, 0, STR_PAD_LEFT);
+                        $result             = str_pad(base_convert($subseq, 36, 2), 31, 0, STR_PAD_LEFT);
+                        $converted          = $result;
+                        $seq_cache[$subseq] = $result;
                     }
 
                     // We put the original bitstring into the acl array
                     $this->acl[$f] .= $converted;
-                    $i += 6;
+                    $i             += 6;
                 }
             }
         }
@@ -152,46 +157,46 @@ class auth
      * If a forum id is specified the local option will be combined with a global option if one exist.
      * If a forum id is not specified, only the global option will be checked.
      * @param $opt string option
-     * @param int $f int forum_id
+     * @param int $forumId int forum_id
      * @return bool
      */
-    function acl_get($opt, $f = 0)
+    public function aclGet($opt, $forumId = 0)
     {
         $negate = false;
 
         if (strpos($opt, '!') === 0)
         {
             $negate = true;
-            $opt = substr($opt, 1);
+            $opt    = substr($opt, 1);
         }
 
-        if (!isset($this->cache[$f][$opt]))
+        if (!isset($this->cache[$forumId][$opt]))
         {
             // We combine the global/local option with an OR because some options are global and local.
             // If the user has the global permission the local one is true too and vice versa
-            $this->cache[$f][$opt] = false;
+            $this->cache[$forumId][$opt] = false;
 
             // Is this option a global permission setting?
-            if (isset($this->acl_options['global'][$opt]))
+            if (isset($this->aclOptions['global'][$opt]))
             {
                 if (isset($this->acl[0]))
                 {
-                    $this->cache[$f][$opt] = $this->acl[0][$this->acl_options['global'][$opt]];
+                    $this->cache[$forumId][$opt] = $this->acl[0][$this->aclOptions['global'][$opt]];
                 }
             }
 
             // Is this option a local permission setting?
             // But if we check for a global option only, we won't combine the options...
-            if ($f != 0 && isset($this->acl_options['local'][$opt]))
+            if ($forumId != 0 && isset($this->aclOptions['local'][$opt]))
             {
-                if (isset($this->acl[$f]) && isset($this->acl[$f][$this->acl_options['local'][$opt]]))
+                if (isset($this->acl[$forumId]) && isset($this->acl[$forumId][$this->aclOptions['local'][$opt]]))
                 {
-                    $this->cache[$f][$opt] |= $this->acl[$f][$this->acl_options['local'][$opt]];
+                    $this->cache[$forumId][$opt] |= $this->acl[$forumId][$this->aclOptions['local'][$opt]];
                 }
             }
         }
 
         // Founder always has all global options set to true...
-        return ($negate) ? !$this->cache[$f][$opt] : $this->cache[$f][$opt];
+        return ($negate) ? !$this->cache[$forumId][$opt] : $this->cache[$forumId][$opt];
     }
 }
