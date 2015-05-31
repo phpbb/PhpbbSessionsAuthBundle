@@ -13,7 +13,8 @@ namespace phpBB\SessionsAuthBundle\Tokens;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class phpBBToken extends AbstractToken {
+class phpBBToken extends AbstractToken
+{
     private $providerKey;
 
     /**
