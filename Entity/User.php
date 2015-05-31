@@ -8,6 +8,7 @@
  */
 namespace phpBB\SessionsAuthBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -48,6 +49,17 @@ class User implements UserInterface
      * @var Role[]
      */
     private $roles;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Session", mappedBy="user")
+     */
+    private $sessions;
+
+    public function __construct()
+    {
+        $this->sessions = new ArrayCollection();
+    }
 
     /**
      * Returns the roles granted to the user.
@@ -150,6 +162,22 @@ class User implements UserInterface
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    }
+
+    /**
+     * @param ArrayCollection $sessions
+     */
+    public function setSessions($sessions)
+    {
+        $this->sessions = $sessions;
     }
 
 
