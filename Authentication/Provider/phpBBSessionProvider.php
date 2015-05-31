@@ -15,7 +15,8 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class phpBBSessionProvider {
+class phpBBSessionProvider
+{
     /** @var  UserProviderInterface */
     private $userProvider;
     /** @var  UserCheckerInterface */
@@ -27,15 +28,16 @@ class phpBBSessionProvider {
      * Constructor.
      *
      * @param UserProviderInterface $userProvider An UserProviderInterface instance
-     * @param UserCheckerInterface  $userChecker  An UserCheckerInterface instance
-     * @param string                $providerKey  The provider key
+     * @param UserCheckerInterface $userChecker An UserCheckerInterface instance
+     * @param string $providerKey The provider key
      */
     public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey)
     {
         $this->userProvider = $userProvider;
-        $this->userChecker = $userChecker;
-        $this->providerKey = $providerKey;
+        $this->userChecker  = $userChecker;
+        $this->providerKey  = $providerKey;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -49,10 +51,11 @@ class phpBBSessionProvider {
         }
         $user = $this->userProvider->loadUserByUsername($user);
         $this->userChecker->checkPostAuth($user);
-        $authenticatedToken = new PreAuthenticatedToken($user, $token->getCredentials(), $this->providerKey, $user->getRoles());
+        $authenticatedToken = new phpBBToken($user, $this->providerKey, $user->getRoles());
         $authenticatedToken->setAttributes($token->getAttributes());
         return $authenticatedToken;
     }
+
     /**
      * {@inheritdoc}
      */

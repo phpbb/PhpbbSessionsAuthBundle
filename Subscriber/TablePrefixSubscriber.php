@@ -10,6 +10,7 @@ namespace phpBB\SessionsAuthBundle\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 
@@ -47,7 +48,7 @@ class TablePrefixSubscriber implements EventSubscriber{
     /**
      * Get subscribed events
      *
-     * @return array
+     * @return string[]
      */
     public function getSubscribedEvents()
     {
@@ -63,6 +64,7 @@ class TablePrefixSubscriber implements EventSubscriber{
      */
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
+        /** @var ClassMetadata $classMetadata */
         $classMetadata = $args->getClassMetadata();
 
         if (empty($this->prefix)) {

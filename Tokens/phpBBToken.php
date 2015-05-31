@@ -11,14 +11,14 @@ namespace phpBB\SessionsAuthBundle\Tokens;
 
 
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
-use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class phpBBToken extends AbstractToken {
     private $providerKey;
 
     /**
      * Constructor.
-     * @param array|\Symfony\Component\Security\Core\Role\RoleInterface[] $user
+     * @param string|UserInterface $user
      * @param $providerKey
      * @param array $roles
      */
@@ -33,7 +33,7 @@ class phpBBToken extends AbstractToken {
         $this->setUser($user);
         $this->providerKey = $providerKey;
 
-        if ($roles) {
+        if (!empty($roles)) {
             $this->setAuthenticated(true);
         }
     }
