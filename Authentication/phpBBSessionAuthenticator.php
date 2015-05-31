@@ -127,6 +127,10 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
             if ($session->getUser()->isBot()) {
                 $roles[] = 'ROLE_BOT';
             }
+            else
+            {
+
+            }
 
             $token = new phpBBToken($session->getUser(), $providerKey, $roles);
 
