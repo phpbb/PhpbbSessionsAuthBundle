@@ -81,7 +81,7 @@ class TablePrefixSubscriber implements EventSubscriber
             if (false === strpos($classMetadata->getTableName(), $this->prefix))
             {
                 $tableName = $this->prefix . $classMetadata->getTableName();
-                $classMetadata->setPrimaryTable(['name' => $tableName]);
+                $classMetadata->setPrimaryTable(array('name' => $tableName));
             }
 
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping)
