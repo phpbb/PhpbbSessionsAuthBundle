@@ -49,14 +49,17 @@ class phpBBSessionProvider
         {
             return;
         }
+
         if (!$user = $token->getUser())
         {
             throw new BadCredentialsException('The required token is not found.');
         }
+
         $user = $this->userProvider->loadUserByUsername($user);
         $this->userChecker->checkPostAuth($user);
         $authenticatedToken = new phpBBToken($user, $this->providerKey, $user->getRoles());
         $authenticatedToken->setAttributes($token->getAttributes());
+
         return $authenticatedToken;
     }
 

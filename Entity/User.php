@@ -81,7 +81,7 @@ class User implements UserInterface
      *
      * Any changes to the user should be made within phpBB.
      *
-     * @return null The password
+     * @return null
      */
     public function getPassword()
     {

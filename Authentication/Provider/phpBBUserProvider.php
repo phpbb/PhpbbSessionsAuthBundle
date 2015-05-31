@@ -50,3 +50,4 @@ class phpBBUserProvider implements UserProviderInterface
         return 'phpBB\SessionsAuthBundle\Entity\User' === $class;
     }
 }
+
