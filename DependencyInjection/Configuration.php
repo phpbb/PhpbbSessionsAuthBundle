@@ -26,13 +26,15 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('phpbb_sessions_auth');
+        $rootNode    = $treeBuilder->root('phpbb_sessions_auth');
+
         $rootNode->children()
                     ->arrayNode('session')->isRequired()
                         ->children()
                             ->booleanNode('secure')->defaultFalse()->isRequired()->end()
                             ->scalarNode('cookiename')->isRequired()->end()
-                            ->scalarNode('boardpath')->isRequired()->end()
+                            ->scalarNode('boardurl')->isRequired()->end()
+                            ->scalarNode('loginpage')->defaultValue('ucp.php?mode=login')->cannotBeEmpty()->end()
                         ->end()
                     ->end()
                     ->arrayNode('database')

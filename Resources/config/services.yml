@@ -7,3 +7,14 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    phpbb.sessionsauthbundle.phpbb_authenticator:
+        class:  phpBB\SessionsAuthBundle\Authentication\phpBBSessionAuthenticator
+        public: false
+        arguments:
+            - %phpbb_sessions_auth.database.cookiename%
+            - %phpbb_sessions_auth.database.boardurl%
+            - %phpbb_sessions_auth.database.loginpage%
+
+    phpbb.sessionsauthbundle.phpbb_user_provider:
+        class: phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider
+

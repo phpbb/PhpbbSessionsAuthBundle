@@ -17,31 +17,37 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @package phpbb\SessionsAuthBundle\Entity
  * @ORM\Entity(readOnly=true)
  */
-class User implements UserInterface{
+class User implements UserInterface
+{
     /**
      * @var
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="user_id")
      * @ORM\Id
      */
-    private $user_id;
+    private $id;
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="username")
      */
     private $username;
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="user_email")
      */
-    private $user_email;
+    private $email;
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", name="user_password")
      */
-    private $user_password;
+    private $password;
+
+    /**
+     * @var Role[]
+     */
+    private $roles;
 
     /**
      * Returns the roles granted to the user.
@@ -61,6 +67,7 @@ class User implements UserInterface{
      */
     public function getRoles()
     {
+        return $this->roles;
     }
 
     /**
@@ -69,7 +76,12 @@ class User implements UserInterface{
      * This should be the encoded password. On authentication, a plain-text
      * password will be salted, encoded, and then compared to this value.
      *
-     * @return string The password
+     * The password will not be returned by this class. Symfony doesn't need
+     * the password of a phpBB user, as the User entity is read only.
+     *
+     * Any changes to the user should be made within phpBB.
+     *
+     * @return null
      */
     public function getPassword()
     {
@@ -111,50 +123,35 @@ class User implements UserInterface{
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getId()
     {
-        return $this->user_id;
+        return $this->id;
     }
 
     /**
-     * @param mixed $user_id
+     * @param mixed $id
      */
-    public function setUserId($user_id)
+    public function setId($id)
     {
-        $this->user_id = $user_id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserEmail()
-    {
-        return $this->user_email;
-    }
-
-    /**
-     * @param string $user_email
-     */
-    public function setUserEmail($user_email)
-    {
-        $this->user_email = $user_email;
+        $this->id = $id;
     }
 
     /**
      * @return string
      */
-    public function getUserPassword()
+    public function getEmail()
     {
-        return $this->user_password;
+        return $this->email;
     }
 
     /**
-     * @param string $user_password
+     * @param string $email
      */
-    public function setUserPassword($user_password)
+    public function setEmail($email)
     {
-        $this->user_password = $user_password;
+        $this->email = $email;
     }
+
 
 }
 
