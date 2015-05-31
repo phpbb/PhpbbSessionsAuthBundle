@@ -9,6 +9,7 @@
 namespace phpBB\SessionsAuthBundle\Authentication;
 
 
+use phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider;
 use phpBB\SessionsAuthBundle\Tokens\phpBBToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
@@ -31,16 +33,21 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
     /** @var  string */
     private $loginpage;
 
+    /** @var RequestStack  */
+    private $requestStack;
+
     /**
      * @param $cookiename string
      * @param $boardurl  string
      * @param $loginpage string
+     * @param $requestStack RequestStack
      */
-    public function __construct($cookiename, $boardurl, $loginpage)
+    public function __construct($cookiename, $boardurl, $loginpage, RequestStack $requestStack)
     {
-        $this->cookiename = $cookiename;
-        $this->boardurl   = $boardurl;
-        $this->loginpage  = $loginpage;
+        $this->cookiename   = $cookiename;
+        $this->boardurl     = $boardurl;
+        $this->loginpage    = $loginpage;
+        $this->requestStack = $requestStack;
 
     }
 
@@ -48,10 +55,29 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      * @param TokenInterface $token
      * @param UserProviderInterface $userProvider
      * @param $providerKey
+     * @return AnonymousToken
      */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-        // TODO: Implement authenticateToken() method.
+        if (!$userProvider instanceof phpBBUserProvider)
+        {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'The user provider must be an instance of phpBBUserProvider (%s was given).',
+                    get_class($userProvider)
+                )
+            );
+        }
+
+        $session_id = $this->requestStack->getCurrentRequest()->cookies->get($this->cookiename . '_sid');
+
+        if (empty($session_id))
+        {
+            return new AnonymousToken('', $token->getUser(), $token->getRoles());
+        }
+
+
+//        AnonymousToken
     }
 
     /**
