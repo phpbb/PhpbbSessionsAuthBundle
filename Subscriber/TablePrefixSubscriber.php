@@ -25,11 +25,11 @@ class TablePrefixSubscriber implements EventSubscriber
     /**
      * Namespace the entity is in
      */
-    private static $ENTITY_NAMESPACE = 'phpbb\\SessionAuthBundle\\Entity';
+    private static $ENTITY_NAMESPACE = 'phpBB\\SessionsAuthBundle\\Entity';
     /**
      * Entity that will receive the prefix
      */
-    private static $ENTITY_NAME = array('User', 'Session');
+    private static $ENTITY_NAME;
 
     /**
      * @var string
@@ -44,6 +44,7 @@ class TablePrefixSubscriber implements EventSubscriber
     public function __construct($prefix)
     {
         $this->prefix = (string) $prefix;
+        self::$ENTITY_NAME = array(self::$ENTITY_NAMESPACE . '\\User', self::$ENTITY_NAMESPACE . '\\Session');
     }
 
     /**
