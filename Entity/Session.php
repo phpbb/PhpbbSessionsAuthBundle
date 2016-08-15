@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Class Session
  * @package phpbb\SessionsAuthBundle\Entity
  * @ORM\Entity(readOnly=true)
+ * @ORM\Table(name="sessions")
  */
 class Session
 {
@@ -29,13 +30,13 @@ class Session
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User", inversedBy="sessions")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * @ORM\JoinColumn(name="session_user_id", referencedColumnName="user_id")
      */
     private $user;
 
     /**
      * @var string
-     * @ORM\Column(type="string", name="user_ip")
+     * @ORM\Column(type="string", name="session_ip")
      *
      */
     private $ip;
@@ -111,4 +112,3 @@ class Session
     }
 
 }
-
