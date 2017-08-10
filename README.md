@@ -28,3 +28,9 @@ phpbb_sessions_auth:
         connection: ""
         prefix: ""
 ```
+
+Confession
+==========
+
+This is taken from (https://github.com/jewome62/PhpbbSessionsAuthBundle) and used in a
+private project. I needed a version compatible with symfony 3.x.
