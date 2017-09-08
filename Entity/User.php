@@ -17,6 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Class User
  * @package phpbb\SessionsAuthBundle\Entity
  * @ORM\Entity(readOnly=true)
+ * @ORM\Table(name="users")
  */
 class User implements UserInterface
 {
@@ -44,12 +45,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", name="user_password")
      */
     private $password;
-
-    /**
-     * @var boolean
-     * @ORM\Column(type="integer", name="is_bot")
-     */
-    private $bot;
 
     /**
      * @var Role[]
@@ -185,22 +180,5 @@ class User implements UserInterface
     {
         $this->sessions = $sessions;
     }
-
-    /**
-     * @return boolean
-     */
-    public function isBot()
-    {
-        return $this->bot;
-    }
-
-    /**
-     * @param boolean $bot
-     */
-    public function setBot($bot)
-    {
-        $this->bot = $bot;
-    }
-
 }
 

@@ -17,11 +17,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
+use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterface;
 
 class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
@@ -93,7 +93,8 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         $em = $this->container->get('doctrine')->getManager($this->dbConnection);
 
         /** @var Session $session */
-        $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findById($sessionId);
+        dump($sessionId);
+        $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findOneById($sessionId, [ 'time' => 'DESC' ]);
 
 
         if (!$session ||
@@ -118,20 +119,10 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         }
 
         // Assume session length of 3600
-        if ($u_ip === $s_ip && $session->getTime() < time() - 3600 + 60)
+        if ($u_ip === $s_ip && $session->getTime() + 3660 >= time())
         {
             // We have a valid user, which is not the guest user.
-
-            $roles = array();
-
-            if ($session->getUser()->isBot()) {
-                $roles[] = 'ROLE_BOT';
-            }
-            else
-            {
-
-            }
-
+            $roles = ['ROLE_PHPBB_USER'];
             $token = new phpBBToken($session->getUser(), $providerKey, $roles);
 
             return $token;
