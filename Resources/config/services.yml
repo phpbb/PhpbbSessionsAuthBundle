@@ -11,12 +11,12 @@ services:
         class:  phpBB\SessionsAuthBundle\Authentication\phpBBSessionAuthenticator
         public: false
         arguments:
-            - "%phpbb_sessions_auth.database.cookiename%"
-            - "%phpbb_sessions_auth.database.boardurl%"
-            - "%phpbb_sessions_auth.database.loginpage%"
-            - "%phpbb_sessions_auth.database.connection%"
+            - "%phpbb_sessions_auth.session.cookiename%"
+            - "%phpbb_sessions_auth.session.boardurl%"
+            - "%phpbb_sessions_auth.session.loginpage%"
+            - "%phpbb_sessions_auth.session.force_login%"
+            - "%secret%"
             - "@request_stack"
-            - "@service_container"
 
     phpbb.sessionsauthbundle.phpbb_user_provider:
         class: phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider

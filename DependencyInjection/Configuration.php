@@ -1,11 +1,11 @@
 <?php
 /**
- * 
+ *
  * @package phpBBSessionsAuthBundle
  * @copyright (c) phpBB Limited <https://www.phpbb.com>
  * @license MIT
  * @author Unknown Bliss
- * 
+ *
  */
 
 namespace phpBB\SessionsAuthBundle\DependencyInjection;
@@ -35,11 +35,12 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('cookiename')->isRequired()->end()
                             ->scalarNode('boardurl')->isRequired()->end()
                             ->scalarNode('loginpage')->defaultValue('ucp.php?mode=login')->cannotBeEmpty()->end()
+                            ->booleanNode('force_login')->defaultValue(true)->end()
                         ->end()
                     ->end()
                     ->arrayNode('database')
                         ->children()
-                            ->scalarNode('connection')->isRequired()->end()
+                            ->scalarNode('entity_manager')->isRequired()->end()
                             ->scalarNode('prefix')->isRequired()->end()
                     ->end()
                 ->end()

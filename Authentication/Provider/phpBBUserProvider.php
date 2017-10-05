@@ -9,7 +9,6 @@
 
 namespace phpBB\SessionsAuthBundle\Authentication\Provider;
 
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -28,17 +27,15 @@ class phpBBUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-
     }
 
     /**
      * @param UserInterface $user
      * @return UserInterface|void
-     * @throws UnsupportedUserException
      */
     public function refreshUser(UserInterface $user)
     {
-        throw new UnsupportedUserException();
+        return $user;
     }
 
     /**

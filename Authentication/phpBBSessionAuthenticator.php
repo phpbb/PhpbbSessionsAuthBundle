@@ -13,12 +13,13 @@ use Doctrine\ORM\EntityManager;
 use phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider;
 use phpBB\SessionsAuthBundle\Entity\Session;
 use phpBB\SessionsAuthBundle\Tokens\phpBBToken;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterface;
@@ -39,28 +40,54 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
     /** @var RequestStack  */
     private $requestStack;
 
-    /** @var ContainerInterface  */
-    private $container;
+    /**
+     * entityManager
+     *
+     * @var EntityManager
+     */
+    private $entityManager;
 
-    /** @var  string */
-    private $dbConnection;
+    /**
+     * forceLogin
+     *
+     * @var bool
+     */
+    private $forceLogin;
+
+    /**
+     * secret
+     *
+     * @var string
+     */
+    private $secret;
 
     /**
      * @param $cookiename string
      * @param $boardurl  string
      * @param $loginpage string
+     * @param $forceLogin boolean
+     * @param $secret string
      * @param $requestStack RequestStack
-     * @param ContainerInterface $container
      */
-    public function __construct($cookiename, $boardurl, $loginpage, $dbconnection,
-                                RequestStack $requestStack, ContainerInterface $container)
+    public function __construct(
+        $cookiename,
+        $boardurl,
+        $loginpage,
+        $forceLogin,
+        $secret,
+        RequestStack $requestStack
+    ) {
+        $this->cookieName    = $cookiename;
+        $this->boardUrl      = $boardurl;
+        $this->loginPage     = $loginpage;
+        $this->requestStack  = $requestStack;
+        $this->forceLogin    = $forceLogin;
+        $this->secret        = $secret;
+    }
+
+    public function setEntityManager(EntityManager $entityManager)
     {
-        $this->cookieName   = $cookiename;
-        $this->boardUrl     = $boardurl;
-        $this->loginPage    = $loginpage;
-        $this->dbConnection = $dbconnection;
-        $this->requestStack = $requestStack;
-        $this->container    = $container;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -86,23 +113,21 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
 
         if (empty($sessionId))
         {
-            return null; // We can't authenticate if no SID is available.
+            return $this->createAnonymousToken($providerKey); // We can't authenticate if no SID is available.
         }
 
-        /** @var EntityManager $em */
-        $em = $this->container->get('doctrine')->getManager($this->dbConnection);
-
         /** @var Session $session */
-        dump($sessionId);
-        $session = $em->getRepository('phpbbSessionsAuthBundle:Session')->findOneById($sessionId, [ 'time' => 'DESC' ]);
-
+        $session = $this->entityManager
+            ->getRepository('phpbbSessionsAuthBundle:Session')
+            ->findOneById($sessionId, [ 'time' => 'DESC' ])
+        ;
 
         if (!$session ||
             $session->getUser() == null ||
             ($session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS) ||
             $session->getUser()->getId() != $userId)
         {
-            return null;
+            return $this->createAnonymousToken($providerKey);;
         }
 
         $userIp = $this->requestStack->getCurrentRequest()->getClientIp();
@@ -127,8 +152,8 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
 
             return $token;
         }
-        return null;
 
+        return $this->createAnonymousToken($providerKey);;
     }
 
     /**
@@ -160,7 +185,9 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        return new RedirectResponse($this->boardUrl . $this->loginPage);
+        if ($this->forceLogin) {
+            return new RedirectResponse($this->boardUrl . $this->loginPage);
+        }
     }
 
     /**
@@ -201,5 +228,12 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         return $ip;
     }
 
-}
+    private function createAnonymousToken($providerKey)
+    {
+        if ($this->forceLogin) {
+            throw new CustomUserMessageAuthenticationException('can not authenticate user via phpbb');
+        }
 
+        return new AnonymousToken($this->secret, 'anon.');
+    }
+}
