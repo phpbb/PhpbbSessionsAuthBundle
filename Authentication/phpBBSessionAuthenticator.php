@@ -144,7 +144,10 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         }
 
         // Assume session length of 3600
-        if ($u_ip === $s_ip && $session->getTime() + 3660 >= time())
+        $isIpOk = $u_ip === $s_ip;
+        $isSessionTimeOk = $session->getTime() + 3660 >= time();
+        $isAutologin = $session->getAutologin();
+        if ($isIpOk && ($isAutologin || $isSessionTimeOk))
         {
             // We have a valid user, which is not the guest user.
             $roles = ['ROLE_PHPBB_USER'];

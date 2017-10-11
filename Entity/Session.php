@@ -48,6 +48,14 @@ class Session
     private $time;
 
     /**
+     * autologin
+     *
+     * @var boolean
+     * @ORM\Column(type="boolean", name="session_autologin")
+     */
+    private $autologin;
+
+    /**
      * @return string
      */
     public function getId()
@@ -111,4 +119,26 @@ class Session
         $this->time = $time;
     }
 
+    /**
+     * Getter for autologin
+     *
+     * @return boolean
+     */
+    public function getAutologin()
+    {
+        return $this->autologin;
+    }
+
+    /**
+     * Setter for autologin
+     *
+     * @param boolean $autologin
+     * @return Session
+     */
+    public function setAutologin($autologin)
+    {
+        $this->autologin = $autologin;
+
+        return $this;
+    }
 }

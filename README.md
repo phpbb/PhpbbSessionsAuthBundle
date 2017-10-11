@@ -5,8 +5,7 @@ This allows you to use phpBB as a authentication provider and share its sessions
 It was originally developed for use on the new phpBB Symfony Website but was then open sourced.
 
 
-Configuration
-=============
+## Configuration
 
 First of all, make sure in your application to ignore the phpBB tables, by using (This is needed for each entity manager):
 
@@ -81,8 +80,19 @@ security:
             provider: phpbb
 ```
 
-Confession
-==========
+## Missing functionality
+
+There are some few edge functionality missing: 
+
+  * `"Remember me" key expiration length (in days)` (ie. max_autologin_time) is not used, and thus if this number is grater than 1, the user will not be autamatically logged out unless he goes to the forum.
+  * `Session IP validation` is considered as "A.B.C", no matter what you specified in your Admin Control Panel configuration
+
+## Other possible improvements
+The following configuration points could be fetch in the `phpbb_config` database :
+  * `secure` = `cookie_secure`
+  * `cookiename` = `cookie_name`
+
+## Confession
 
 This is taken from (https://github.com/jewome62/PhpbbSessionsAuthBundle) and used in a
 private project. I needed a version compatible with symfony 3.x.
