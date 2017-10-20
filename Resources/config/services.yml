@@ -18,6 +18,3 @@ services:
             - "%secret%"
             - "@request_stack"
 
-    phpbb.sessionsauthbundle.phpbb_user_provider:
-        class: phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider
-

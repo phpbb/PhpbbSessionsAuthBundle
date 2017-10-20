@@ -108,55 +108,25 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
             );
         }
 
-        $sessionId = $this->requestStack->getCurrentRequest()->cookies->get($this->cookieName . '_sid');
-        $userId    = $this->requestStack->getCurrentRequest()->cookies->get($this->cookieName . '_u');
+        $request = $this->requestStack->getCurrentRequest();
 
-        if (empty($sessionId))
+        $sessionId = $request->cookies->get($this->cookieName . '_sid');
+        $expectedUserId = $request->cookies->get($this->cookieName . '_u');
+
+        $username = $userProvider->getUsernameForSessionId($sessionId, $expectedUserId, $request->getClientIp());
+
+        if (!$username)
         {
             return $this->createAnonymousToken($providerKey); // We can't authenticate if no SID is available.
         }
 
-        /** @var Session $session */
-        $session = $this->entityManager
-            ->getRepository('phpbbSessionsAuthBundle:Session')
-            ->findOneById($sessionId, [ 'time' => 'DESC' ])
-        ;
+        $user = $userProvider->loadUserByUsername($username);
 
-        if (!$session ||
-            $session->getUser() == null ||
-            ($session->getUser() != null && $session->getUser()->getId() == self::ANONYMOUS) ||
-            $session->getUser()->getId() != $userId)
-        {
-            return $this->createAnonymousToken($providerKey);;
-        }
+        // We have a valid user, which is not the guest user.
+        $roles = ['ROLE_PHPBB_USER'];
+        $token = new phpBBToken($user, $providerKey, $roles);
 
-        $userIp = $this->requestStack->getCurrentRequest()->getClientIp();
-
-        if (strpos($userIp, ':') !== false && strpos($session->getIp(), ':') !== false)
-        {
-            $s_ip = $this->shortIpv6($session->getIp(), 3);
-            $u_ip = $this->shortIpv6($userIp, 3);
-        }
-        else
-        {
-            $s_ip = implode('.', array_slice(explode('.', $session->getIp()), 0, 3));
-            $u_ip = implode('.', array_slice(explode('.', $userIp), 0, 3));
-        }
-
-        // Assume session length of 3600
-        $isIpOk = $u_ip === $s_ip;
-        $isSessionTimeOk = $session->getTime() + 3660 >= time();
-        $isAutologin = $session->getAutologin();
-        if ($isIpOk && ($isAutologin || $isSessionTimeOk))
-        {
-            // We have a valid user, which is not the guest user.
-            $roles = ['ROLE_PHPBB_USER'];
-            $token = new phpBBToken($session->getUser(), $providerKey, $roles);
-
-            return $token;
-        }
-
-        return $this->createAnonymousToken($providerKey);;
+        return $token;
     }
 
     /**
@@ -191,44 +161,6 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
         if ($this->forceLogin) {
             return new RedirectResponse($this->boardUrl . $this->loginPage);
         }
-    }
-
-    /**
-     * Returns the first block of the specified IPv6 address and as many additional
-     * ones as specified in the length paramater.
-     * If length is zero, then an empty string is returned.
-     * If length is greater than 3 the complete IP will be returned
-     *
-     * @copyright (c) phpBB Limited <https://www.phpbb.com>
-     * @license GNU General Public License, version 2 (GPL-2.0)
-     *
-     * @param $ip
-     * @param $length
-     * @return mixed|string
-     */
-    private function shortIpv6($ip, $length)
-    {
-        if ($length < 1)
-        {
-            return '';
-        }
-
-        // extend IPv6 addresses
-        $blocks = substr_count($ip, ':') + 1;
-        if ($blocks < 9)
-        {
-            $ip = str_replace('::', ':' . str_repeat('0000:', 9 - $blocks), $ip);
-        }
-        if ($ip[0] == ':')
-        {
-            $ip = '0000' . $ip;
-        }
-        if ($length < 4)
-        {
-            $ip = implode(':', array_slice(explode(':', $ip), 0, 1 + $length));
-        }
-
-        return $ip;
     }
 
     private function createAnonymousToken($providerKey)
