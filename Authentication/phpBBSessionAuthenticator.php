@@ -68,6 +68,7 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      * @param $forceLogin boolean
      * @param $secret string
      * @param $requestStack RequestStack
+     * @param $roles
      */
     public function __construct(
         $cookiename,
@@ -98,35 +99,25 @@ class phpBBSessionAuthenticator implements SimplePreAuthenticatorInterface, Auth
      */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-        if (!$userProvider instanceof phpBBUserProvider)
-        {
-            throw new \InvalidArgumentException(
-                sprintf(
+        if (!$userProvider instanceof phpBBUserProvider) {
+            throw new \InvalidArgumentException(sprintf(
                     'The user provider must be an instance of phpBBUserProvider (%s was given).',
                     get_class($userProvider)
-                )
-            );
+            ));
         }
-
         $request = $this->requestStack->getCurrentRequest();
+        $username = $userProvider->getUsernameForSessionId(
+            $request->cookies->get($this->cookieName . '_sid'),
+            $request->cookies->get($this->cookieName . '_u'),
+            $request->getClientIp()
+        );
 
-        $sessionId = $request->cookies->get($this->cookieName . '_sid');
-        $expectedUserId = $request->cookies->get($this->cookieName . '_u');
-
-        $username = $userProvider->getUsernameForSessionId($sessionId, $expectedUserId, $request->getClientIp());
-
-        if (!$username)
-        {
+        if (!$username) {
             return $this->createAnonymousToken($providerKey); // We can't authenticate if no SID is available.
         }
 
         $user = $userProvider->loadUserByUsername($username);
-
-        // We have a valid user, which is not the guest user.
-        $roles = ['ROLE_PHPBB_USER'];
-        $token = new phpBBToken($user, $providerKey, $roles);
-
-        return $token;
+        return new phpBBToken($user, $providerKey, $user->getRoles());
     }
 
     /**

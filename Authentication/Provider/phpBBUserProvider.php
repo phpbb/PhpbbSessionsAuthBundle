@@ -10,6 +10,8 @@
 namespace phpBB\SessionsAuthBundle\Authentication\Provider;
 
 use Doctrine\ORM\EntityManager;
+use phpBB\SessionsAuthBundle\Entity\Session;
+use phpBB\SessionsAuthBundle\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -26,6 +28,14 @@ class phpBBUserProvider implements UserProviderInterface
     private $entityManager;
 
     /**
+     * roles
+     *
+     * @var array
+     * @access private
+     */
+    private $roles = [];
+
+    /**
      * __construct
      *
      * @param EntityManager $entityManager
@@ -33,6 +43,14 @@ class phpBBUserProvider implements UserProviderInterface
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
     }
 
     /**
@@ -44,33 +62,31 @@ class phpBBUserProvider implements UserProviderInterface
             return null;
         }
 
-        $session = $this->entityManager
-            ->getRepository('phpbbSessionsAuthBundle:Session')
-            ->findOneById($sessionId, [ 'time' => 'DESC' ])
-        ;
+        $session = $this
+            ->entityManager
+            ->getRepository(Session::class)
+            ->createQueryBuilder('s')
+            ->select('s, u')
+            ->join('s.user', 'u')
+            ->where('s.id = :id')
+            ->setParameter('id', $sessionId)
+            ->orderBy("s.time", "DESC")
+            ->getQuery()
+            ->getOneOrNullResult();
 
         if (!$session) {
             return null;
         }
 
         $user = $session->getUser();
-
-        if (!$user || $user->getId() === self::ANONYMOUS_USER_ID) {
+        if (!$user || $user->getId() === self::ANONYMOUS_USER_ID || $user->getId() != $expectedUserId) {
             return null;
         }
 
-        if ($user->getId() != $expectedUserId) {
-            return null;
-        }
-
-
-        if (strpos($userIp, ':') !== false && strpos($session->getIp(), ':') !== false)
-        {
+        if (strpos($userIp, ':') !== false && strpos($session->getIp(), ':') !== false) {
             $s_ip = $this->shortIpv6($session->getIp(), 3);
             $u_ip = $this->shortIpv6($userIp, 3);
-        }
-        else
-        {
+        } else {
             $s_ip = implode('.', array_slice(explode('.', $session->getIp()), 0, 3));
             $u_ip = implode('.', array_slice(explode('.', $userIp), 0, 3));
         }
@@ -79,11 +95,9 @@ class phpBBUserProvider implements UserProviderInterface
         $isIpOk = $u_ip === $s_ip;
         $isSessionTimeOk = $session->getTime() + 3660 >= time();
         $isAutologin = $session->getAutologin();
-        if ($isIpOk && ($isAutologin || $isSessionTimeOk))
-        {
+        if ($isIpOk && ($isAutologin || $isSessionTimeOk)) {
             return $user->getUsername();
         }
-
         return null;
     }
 
@@ -93,11 +107,26 @@ class phpBBUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $user = $this->entityManager
+        $user = $this
+            ->entityManager
             ->getRepository('phpbbSessionsAuthBundle:User')
-            ->findOneByUsername($username);
+            ->createQueryBuilder('u')
+            ->select('u, ug')
+            ->join('u.groups', 'ug')
+            ->where('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
 
-        return $user;
+        $roles = [];
+        foreach ($user->getGroups() as $group) {
+            if (!isset($this->roles[$group->getGroupId()])) {
+                throw new \Exception("Roles provided in configuration don't have id ".$group->getGroupId(), 1);
+            }
+            $roles[$group->getGroupId()] = "ROLE_".strtoupper($this->roles[$group->getGroupId()]);
+        }
+        uksort($roles, function($a, $b) use ($user) { return $a <> $user->getGroupId(); });
+        return $user->setRoles($roles);
     }
 
     /**
@@ -115,7 +144,7 @@ class phpBBUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return 'phpBB\SessionsAuthBundle\Entity\User' === $class;
+        return User::class === $class;
     }
 
     /**

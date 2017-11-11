@@ -44,7 +44,11 @@ class TablePrefixSubscriber implements EventSubscriber
     public function __construct($prefix)
     {
         $this->prefix = (string) $prefix;
-        self::$ENTITY_NAME = array(self::$ENTITY_NAMESPACE . '\\User', self::$ENTITY_NAMESPACE . '\\Session');
+        self::$ENTITY_NAME = [
+            self::$ENTITY_NAMESPACE.'\\User',
+            self::$ENTITY_NAMESPACE.'\\UserGroup',
+            self::$ENTITY_NAMESPACE.'\\Session'
+        ];
     }
 
     /**
@@ -102,4 +106,3 @@ class TablePrefixSubscriber implements EventSubscriber
         }
     }
 }
-

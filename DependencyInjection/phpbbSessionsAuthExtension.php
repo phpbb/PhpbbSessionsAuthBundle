@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -34,12 +35,12 @@ class phpbbSessionsAuthExtension extends Extension
 
         $entityManager = new Reference(sprintf('doctrine.orm.%s_entity_manager', $config['database']['entity_manager']));
 
-        // $container->setParameter('phpbb_sessions_auth.database.entity_manager', $entityManager);
         $container->setParameter('phpbb_sessions_auth.database.prefix', $config['database']['prefix']);
         $container->setParameter('phpbb_sessions_auth.session.cookiename', $config['session']['cookiename']);
         $container->setParameter('phpbb_sessions_auth.session.boardurl', $config['session']['boardurl']);
         $container->setParameter('phpbb_sessions_auth.session.loginpage', $config['session']['loginpage']);
         $container->setParameter('phpbb_sessions_auth.session.force_login', $config['session']['force_login']);
+        $container->setParameter('phpbb_sessions_auth.roles', $config['roles']);
 
 
         // Yes, Yes, These defines are needed for Auth (From phpBB)
@@ -54,13 +55,8 @@ class phpbbSessionsAuthExtension extends Extension
             ->addMethodCall('setEntityManager', [$entityManager]);
 
 
-        $container->setDefinition(
-            'phpbb.sessionsauthbundle.phpbb_user_provider',
-            new Definition(
-                'phpBB\SessionsAuthBundle\Authentication\Provider\phpBBUserProvider',
-                [$entityManager]
-            )
-        );
+        $definition = new Definition(phpBBUserProvider::class, [$entityManager]);
+        $definition->addMethodCall('setRoles', [$config['roles']]);
+        $container->setDefinition('phpbb.sessionsauthbundle.phpbb_user_provider', $definition);
     }
 }
-

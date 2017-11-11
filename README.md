@@ -42,7 +42,7 @@ doctrine:
     orm:
         entity_managers:
             default: # same here, not required, but you will probably have this in your configuration
-                connection: default 
+                connection: default
             forum:
                 connection: forum
                 mappings:
@@ -60,19 +60,27 @@ phpbb_sessions_auth:
     database:
         entity_manager: "forum" # must match the key bellow doctrine.orm.entity_managers
         prefix: "phpbb_" # change this if you do not use the default "phpbb_" prefix
+    roles: #relation between group_id from groups table of phpBB and roles of your application
+        1: anonymous #GUESTS
+        2: user #REGISTERED
+        4: moderator #GLOBAL_MODERATORS
+        5: administrator #ADMINISTRATORS
+        6: bot #BOTS
+        7: app_role_name #example of new group create in phpBB and new role in your application
+        8: administrator #you can assing same application roles to various phpBB groups
 ```
 
 Update your `app/config/security.yml` file to match this:
 ```yaml
 security:
     providers:
-        phpbb: 
+        phpbb:
             id: "phpbb.sessionsauthbundle.phpbb_user_provider"
     firewalls:
         main:
             pattern: ^/
             anonymous: true
-            stateless: true # stateless should be set to true, or your symfony user may be stored in the session even if you logged out from the phpbb instance 
+            stateless: true # stateless should be set to true, or your symfony user may be stored in the session even if you logged out from the phpbb instance
             form_login:
                 login_path: /forum/ucp.php?mode=login # this should theorically not be set, but if not returns a 500 instead a 403, see https://github.com/symfony/symfony/issues/8467 for more informations
             simple_preauth:
@@ -82,7 +90,7 @@ security:
 
 ## Missing functionality
 
-There are some few edge functionality missing: 
+There are some few edge functionality missing:
 
   * `"Remember me" key expiration length (in days)` (ie. max_autologin_time) is not used, and thus if this number is grater than 1, the user will not be autamatically logged out unless he goes to the forum.
   * `Session IP validation` is considered as "A.B.C", no matter what you specified in your Admin Control Panel configuration

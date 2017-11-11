@@ -17,4 +17,3 @@ services:
             - "%phpbb_sessions_auth.session.force_login%"
             - "%secret%"
             - "@request_stack"
-
