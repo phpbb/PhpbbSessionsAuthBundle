@@ -33,6 +33,7 @@ class PhpbbSessionsAuthExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('phpbb_sessions_auth.database.entity_manager', $config['database']['entity_manager']);
         $container->setParameter('phpbb_sessions_auth.database.prefix', $config['database']['prefix']);
         $container->setParameter('phpbb_sessions_auth.session.cookie_name', $config['session']['cookie_name']);
         $container->setParameter('phpbb_sessions_auth.session.login_page', $config['session']['login_page']);
@@ -41,12 +42,5 @@ class PhpbbSessionsAuthExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
-
-        $definition = new Definition(
-            PhpbbUserProvider::class,
-            [new Reference(sprintf('doctrine.orm.%s_entity_manager', $config['database']['entity_manager']))]
-        );
-        $definition->addMethodCall('setRoles', [$config['roles']]);
-        $container->setDefinition('phpbb.sessionsauthbundle.phpbb_user_provider', $definition);
     }
 }

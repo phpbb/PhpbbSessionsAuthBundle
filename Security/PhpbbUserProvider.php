@@ -10,7 +10,7 @@
 
 namespace phpBB\SessionsAuthBundle\Security;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use phpBB\SessionsAuthBundle\Entity\Session;
 use phpBB\SessionsAuthBundle\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,10 +34,11 @@ class PhpbbUserProvider implements UserProviderInterface
 
     /**
      * @param EntityManager $entityManager
+     * @param string $entity
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(ManagerRegistry $managerRegistry, $entity)
     {
-        $this->entityManager = $entityManager;
+        $this->entityManager = $managerRegistry->getManager($entity);
     }
 
     /**

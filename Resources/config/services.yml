@@ -1,5 +1,3 @@
-parameters:
-
 services:
     phpbb.sessionsauthbundle.tblprefix_subscriber:
         class: phpBB\SessionsAuthBundle\Subscriber\TablePrefixSubscriber
@@ -15,3 +13,9 @@ services:
             - "%phpbb_sessions_auth.session.cookie_name%"
             - "%phpbb_sessions_auth.session.login_page%"
             - "%phpbb_sessions_auth.session.force_login%"
+
+    phpbb.sessionsauthbundle.phpbb_user_provider:
+        class:  phpBB\SessionsAuthBundle\Security\PhpbbUserProvider
+        public: false
+        arguments: ["@doctrine", "%phpbb_sessions_auth.database.entity_manager%"]
+        calls: [[setRoles, ["%phpbb_sessions_auth.roles%"]]]
