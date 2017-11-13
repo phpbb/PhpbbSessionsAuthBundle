@@ -3,17 +3,15 @@ parameters:
 services:
     phpbb.sessionsauthbundle.tblprefix_subscriber:
         class: phpBB\SessionsAuthBundle\Subscriber\TablePrefixSubscriber
+        public: false
         arguments: ["%phpbb_sessions_auth.database.prefix%"]
         tags:
             - { name: doctrine.event_subscriber }
 
     phpbb.sessionsauthbundle.phpbb_authenticator:
-        class:  phpBB\SessionsAuthBundle\Authentication\phpBBSessionAuthenticator
+        class:  phpBB\SessionsAuthBundle\Security\PhpbbSessionAuthenticator
         public: false
         arguments:
-            - "%phpbb_sessions_auth.session.cookiename%"
-            - "%phpbb_sessions_auth.session.boardurl%"
-            - "%phpbb_sessions_auth.session.loginpage%"
+            - "%phpbb_sessions_auth.session.cookie_name%"
+            - "%phpbb_sessions_auth.session.login_page%"
             - "%phpbb_sessions_auth.session.force_login%"
-            - "%secret%"
-            - "@request_stack"

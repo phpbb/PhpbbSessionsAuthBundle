@@ -21,10 +21,10 @@
     "issues": "https://www.phpbb.com/bugs/website/"
   },
   "require": {
-    "symfony/framework-bundle": "~2.3|^3.0",
-    "symfony/twig-bundle": "~2.3|^3.0",
-    "symfony/form": "~2.3|^3.0",
-    "symfony/security-bundle": "~2.3|^3.0",
+    "symfony/framework-bundle": "~2.3|^3.0|^4.0",
+    "symfony/twig-bundle": "~2.3|^3.0|^4.0",
+    "symfony/form": "~2.3|^3.0|^4.0",
+    "symfony/security-bundle": "~2.3|^3.0|^4.0",
     "doctrine/common": "~2.1",
     "doctrine/orm": "~2.1"
   },

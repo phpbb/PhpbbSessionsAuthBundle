@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @package phpBBSessionsAuthBundle
@@ -7,7 +8,7 @@
  *
  */
 
-namespace phpBB\SessionsAuthBundle\Authentication\Provider;
+namespace phpBB\SessionsAuthBundle\Security;
 
 use Doctrine\ORM\EntityManager;
 use phpBB\SessionsAuthBundle\Entity\Session;
@@ -15,29 +16,23 @@ use phpBB\SessionsAuthBundle\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class phpBBUserProvider implements UserProviderInterface
+class PhpbbUserProvider implements UserProviderInterface
 {
     const ANONYMOUS_USER_ID = 1;
 
     /**
-     * entityManager
-     *
      * @var EntityManager
      * @access private
      */
     private $entityManager;
 
     /**
-     * roles
-     *
      * @var array
      * @access private
      */
     private $roles = [];
 
     /**
-     * __construct
-     *
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)
@@ -70,7 +65,7 @@ class phpBBUserProvider implements UserProviderInterface
             ->join('s.user', 'u')
             ->where('s.id = :id')
             ->setParameter('id', $sessionId)
-            ->orderBy("s.time", "DESC")
+            ->orderBy('s.time', 'DESC')
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -109,7 +104,7 @@ class phpBBUserProvider implements UserProviderInterface
     {
         $user = $this
             ->entityManager
-            ->getRepository('phpbbSessionsAuthBundle:User')
+            ->getRepository(User::class)
             ->createQueryBuilder('u')
             ->select('u, ug')
             ->join('u.groups', 'ug')
@@ -123,7 +118,7 @@ class phpBBUserProvider implements UserProviderInterface
             if (!isset($this->roles[$group->getGroupId()])) {
                 throw new \Exception("Roles provided in configuration don't have id ".$group->getGroupId(), 1);
             }
-            $roles[$group->getGroupId()] = "ROLE_".strtoupper($this->roles[$group->getGroupId()]);
+            $roles[$group->getGroupId()] = 'ROLE_'.strtoupper($this->roles[$group->getGroupId()]);
         }
         uksort($roles, function($a, $b) use ($user) { return $a <> $user->getGroupId(); });
         return $user->setRoles($roles);
