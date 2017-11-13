@@ -53,7 +53,6 @@ Then add the bundle configuration to your config file (`app/config/config.yml` i
 ```yaml
 phpbb_sessions_auth:
     session:
-        secure: false # set to true this if you use secure cookie in your php admin configuration
         cookiename: "phpbb_foo" # must match your forum admin cookie name configuration
         login_page: "ucp.php?mode=login" # your login page, by default phpbb login page but you can use a custom page
         force_login: false # if true, anonymous users will be redirected to the login page
@@ -92,8 +91,3 @@ There are some few edge functionality missing:
 
   * `"Remember me" key expiration length (in days)` (ie. max_autologin_time) is not used, and thus if this number is grater than 1, the user will not be autamatically logged out unless he goes to the forum.
   * `Session IP validation` is considered as "A.B.C", no matter what you specified in your Admin Control Panel configuration
-
-## Other possible improvements
-The following configuration points could be fetch in the `phpbb_config` database :
-  * `secure` = `cookie_secure`
-  * `cookiename` = `cookie_name`

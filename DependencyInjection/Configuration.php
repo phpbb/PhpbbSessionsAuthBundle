@@ -31,7 +31,6 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->arrayNode('session')->isRequired()
                         ->children()
-                            ->booleanNode('secure')->defaultFalse()->isRequired()->end()
                             ->scalarNode('cookie_name')->isRequired()->end()
                             ->scalarNode('login_page')->defaultValue('ucp.php?mode=login')->cannotBeEmpty()->end()
                             ->booleanNode('force_login')->defaultValue(true)->end()
