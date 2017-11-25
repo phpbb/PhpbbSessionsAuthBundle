@@ -74,7 +74,7 @@ class User implements UserInterface
      * @var string
      * @ORM\Column(name="username_clean", type="string")
      */
-    private $nameClean;
+    private $usernameClean;
 
     /**
     * @var string
@@ -589,16 +589,16 @@ class User implements UserInterface
      * @param string $usernameClean
      * @return User
      */
-    public function setnameClean($usernameClean)
+    public function setUsernameClean($usernameClean)
     {
-        $this->nameClean = $usernameClean;
+        $this->usernameClean = $usernameClean;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getUsernameClean()
+    public function getUserUsernameClean()
     {
         return $this->usernameClean;
     }
