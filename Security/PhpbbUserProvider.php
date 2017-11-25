@@ -52,10 +52,6 @@ class PhpbbUserProvider implements UserProviderInterface
      */
     public function getUsernameForSessionId($sessionId, $expectedUserId, $userIp)
     {
-        if (!$sessionId) {
-            return null;
-        }
-
         $session = $this
             ->entityManager
             ->getRepository(Session::class)

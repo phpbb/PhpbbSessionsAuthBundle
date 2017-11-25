@@ -58,12 +58,12 @@ class PhpbbSessionAuthenticator extends AbstractGuardAuthenticator
     {
         if (!$userProvider instanceof PhpbbUserProvider) {
             throw new \InvalidArgumentException(sprintf(
-                    'The user provider must be an instance of PhpbbUserProvider (%s was given).',
-                    get_class($userProvider)
+                'The user provider must be an instance of PhpbbUserProvider (%s was given).',
+                get_class($userProvider)
             ));
         }
 
-        if (!$credentials['user'] || $credentials['user'] == self::ANONYMOUS_USER_ID) { //if no session or anonymous user
+        if (!$credentials['session'] || !$credentials['user'] || $credentials['user'] == self::ANONYMOUS_USER_ID) { //if no session or anonymous user
             if ($this->forceLogin) {
                 throw new CustomUserMessageAuthenticationException('can not authenticate user via phpbb');
             }
