@@ -18,8 +18,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class PhpbbUserProvider implements UserProviderInterface
 {
-    const ANONYMOUS_USER_ID = 1;
-
     /**
      * @var EntityManager
      * @access private
@@ -64,37 +62,33 @@ class PhpbbUserProvider implements UserProviderInterface
             ->createQueryBuilder('s')
             ->select('s, u')
             ->join('s.user', 'u')
-            ->where('s.id = :id')
-            ->setParameter('id', $sessionId)
+            ->where('u.id = :id')
+            ->setParameter('id', $expectedUserId)
             ->orderBy('s.time', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
 
-        if (!$session) {
+        if ( //check if have session and cookie ip (v6 or v4) are equal to session id
+            !$session
+            || (
+                strpos($session->getIp(), ':') !== false
+                && strpos($userIp, ':') !== false
+                && $this->shortIpv6($session->getIp(), 3) !== $this->shortIpv6($userIp, 3)
+            )
+            || substr($session->getIp(), 0, strrpos($session->getIp(), '.')) !== substr($userIp, 0, strrpos($userIp, '.'))
+        ) {
             return null;
         }
 
-        $user = $session->getUser();
-        if (!$user || $user->getId() === self::ANONYMOUS_USER_ID || $user->getId() != $expectedUserId) {
-            return null;
+        //update session time each minute like phpBB does
+        $now = time();
+        if($now - $session->getTime() >= 60) {
+            $session->setTime($now);
+            $this->entityManager->flush();
         }
 
-        if (strpos($userIp, ':') !== false && strpos($session->getIp(), ':') !== false) {
-            $s_ip = $this->shortIpv6($session->getIp(), 3);
-            $u_ip = $this->shortIpv6($userIp, 3);
-        } else {
-            $s_ip = implode('.', array_slice(explode('.', $session->getIp()), 0, 3));
-            $u_ip = implode('.', array_slice(explode('.', $userIp), 0, 3));
-        }
-
-        // Assume session length of 3600
-        $isIpOk = $u_ip === $s_ip;
-        $isSessionTimeOk = $session->getTime() + 3660 >= time();
-        $isAutologin = $session->getAutologin();
-        if ($isIpOk && ($isAutologin || $isSessionTimeOk)) {
-            return $user->getUsername();
-        }
-        return null;
+        return $session->getUser()->getUsername();
     }
 
     /**
@@ -152,32 +146,25 @@ class PhpbbUserProvider implements UserProviderInterface
      * @copyright (c) phpBB Limited <https://www.phpbb.com>
      * @license GNU General Public License, version 2 (GPL-2.0)
      *
-     * @param $ip
-     * @param $length
+     * @param string $ip
+     * @param integer $length
      * @return mixed|string
      */
     private function shortIpv6($ip, $length)
     {
-        if ($length < 1)
-        {
+        if ($length < 1) {
             return '';
         }
 
         // extend IPv6 addresses
         $blocks = substr_count($ip, ':') + 1;
-        if ($blocks < 9)
-        {
+        if ($blocks < 9) {
             $ip = str_replace('::', ':' . str_repeat('0000:', 9 - $blocks), $ip);
-        }
-        if ($ip[0] == ':')
-        {
+        } elseif ($ip[0] == ':') {
             $ip = '0000' . $ip;
-        }
-        if ($length < 4)
-        {
+        } elseif ($length < 4) {
             $ip = implode(':', array_slice(explode(':', $ip), 0, 1 + $length));
         }
-
         return $ip;
     }
 }

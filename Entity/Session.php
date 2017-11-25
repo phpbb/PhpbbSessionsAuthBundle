@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Class Session
  * @package phpbb\SessionsAuthBundle\Entity
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity
  * @ORM\Table(name="sessions")
  */
 class Session
@@ -24,6 +24,7 @@ class Session
      * @var string
      * @ORM\Column(name="session_id", type="string")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -42,25 +43,25 @@ class Session
 
     /**
      * @var integer
-     * @ORM\Column(name="session_last_visit", type="integer")
+     * @ORM\Column(name="session_last_visit", type="integer", nullable=false)
      */
     private $lastVisit;
 
     /**
      * @var integer
-     * @ORM\Column(name="session_start", type="integer")
+     * @ORM\Column(name="session_start", type="integer", nullable=false)
      */
     private $start;
 
     /**
      * @var
-     * @ORM\Column(name="session_time", type="integer")
+     * @ORM\Column(name="session_time", type="integer", nullable=false)
      */
     private $time;
 
     /**
      * @var string
-     * @ORM\Column(name="session_ip", type="string")
+     * @ORM\Column(name="session_ip", type="string", nullable=false)
      */
     private $ip;
 
@@ -90,7 +91,7 @@ class Session
 
     /**
      * @var boolean
-     * @ORM\Column(name="session_autologin", type="boolean")
+     * @ORM\Column(name="session_autologin", type="boolean", nullable=false)
      */
     private $autologin;
 
@@ -114,6 +115,7 @@ class Session
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -130,6 +132,7 @@ class Session
     public function setUser($user)
     {
         $this->user = $user;
+        return $this;
     }
 
     /**
@@ -175,7 +178,6 @@ class Session
     public function setStart($start)
     {
         $this->start = $start;
-
         return $this;
     }
 
@@ -201,6 +203,7 @@ class Session
     public function setTime($time)
     {
         $this->time = $time;
+        return $this;
     }
 
     /**
@@ -217,6 +220,7 @@ class Session
     public function setIp($ip)
     {
         $this->ip = $ip;
+        return $this;
     }
 
     /**
@@ -225,7 +229,7 @@ class Session
      */
     public function setBrowser($browser)
     {
-        $this->Browser = $browser;
+        $this->browser = $browser;
         return $this;
     }
 
@@ -234,7 +238,7 @@ class Session
      */
     public function getBrowser()
     {
-        return $this->Browser;
+        return $this->browser;
     }
 
     /**
@@ -310,6 +314,14 @@ class Session
     }
 
     /**
+     * @return boolean
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
      * @param boolean $admin
      * @return Sessions
      */
@@ -317,13 +329,5 @@ class Session
     {
         $this->admin = $admin;
         return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getAdmin()
-    {
-        return $this->admin;
     }
 }
