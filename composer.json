@@ -1,5 +1,5 @@
 {
-  "name": "judu/phpbb-sessions-auth-bundle",
+  "name": "telixj/phpbb-sessions-auth-bundle",
   "description": "A symfony bundle that provides symfony the ability to integrate and share sessions with phpBB and use phpBB as the authentication provider.",
   "keywords": [
     "phpBB",
