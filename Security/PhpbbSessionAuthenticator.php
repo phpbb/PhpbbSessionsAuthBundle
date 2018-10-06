@@ -122,6 +122,14 @@ class PhpbbSessionAuthenticator extends AbstractGuardAuthenticator
     /**
      * @return bool
      */
+    public function supports()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
     public function supportsRememberMe()
     {
         return false;
