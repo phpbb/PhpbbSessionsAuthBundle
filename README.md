@@ -53,7 +53,7 @@ Then add the bundle configuration to your config file (`app/config/config.yml` i
 ```yaml
 phpbb_sessions_auth:
     session:
-        cookiename: "phpbb_foo" # must match your forum admin cookie name configuration
+        cookie_name: "phpbb_foo" # must match your forum admin cookie name configuration
         login_page: "ucp.php?mode=login" # your login page, by default phpbb login page but you can use a custom page
         force_login: false # if true, anonymous users will be redirected to the login page
     database:
