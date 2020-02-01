@@ -23,17 +23,26 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
  */
 class PhpbbSessionAuthenticator extends AbstractGuardAuthenticator
 {
-    const ANONYMOUS_USER_ID = 1;
+    public const ANONYMOUS_USER_ID = 1;
+    private $cookieName;
+    private $loginPage;
+    private $forceLogin;
 
     /**
      * @param string $cookieName
      * @param string $loginPage string
      * @param string $forceLogin boolean
      */
-    public function __construct($cookieName, $loginPage, $forceLogin) {
+    public function __construct($cookieName, $loginPage, $forceLogin)
+    {
         $this->cookieName = $cookieName;
         $this->loginPage = $loginPage;
         $this->forceLogin = $forceLogin;
+    }
+
+    public function supports(Request $request)
+    {
+        return true;
     }
 
     /**

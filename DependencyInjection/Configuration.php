@@ -25,27 +25,27 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder
-            ->root('phpbb_sessions_auth')
-                ->children()
-                    ->arrayNode('session')->isRequired()
-                        ->children()
-                            ->scalarNode('cookie_name')->isRequired()->end()
-                            ->scalarNode('login_page')->defaultValue('ucp.php?mode=login')->cannotBeEmpty()->end()
-                            ->booleanNode('force_login')->defaultValue(true)->end()
-                        ->end()
-                    ->end()
-                    ->arrayNode('database')
-                        ->children()
-                            ->scalarNode('entity_manager')->isRequired()->end()
-                            ->scalarNode('prefix')->isRequired()->end()
-                        ->end()
-                    ->end()
-                    ->arrayNode('roles')
-                        ->prototype('scalar')->end()
+        $treeBuilder = new TreeBuilder('phpbb_sessions_auth');
+        $rootNode = method_exists($treeBuilder, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root("phpbb_sessions_auth");
+        $rootNode
+            ->children()
+                ->arrayNode('session')->isRequired()
+                    ->children()
+                        ->scalarNode('cookie_name')->isRequired()->end()
+                        ->scalarNode('login_page')->defaultValue('ucp.php?mode=login')->cannotBeEmpty()->end()
+                        ->booleanNode('force_login')->defaultValue(true)->end()
                     ->end()
                 ->end()
+                ->arrayNode('database')
+                    ->children()
+                        ->scalarNode('entity_manager')->isRequired()->end()
+                        ->scalarNode('prefix')->isRequired()->end()
+                    ->end()
+                ->end()
+                ->arrayNode('roles')
+                    ->prototype('scalar')->end()
+                ->end()
+            ->end()
         ;
 
         return $treeBuilder;
