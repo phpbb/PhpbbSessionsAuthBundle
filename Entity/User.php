@@ -95,12 +95,6 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @var integer
-     * @ORM\Column(name="user_email_hash", type="bigint")
-     */
-    private $emailHash;
-
-    /**
      * @var string
      * @ORM\Column(name="user_birthday", type="string")
      */
@@ -666,24 +660,6 @@ class User implements UserInterface
     public function getEmail()
     {
         return $this->email;
-    }
-
-    /**
-     * @param integer $emailHash
-     * @return User
-     */
-    public function setEmailHash($emailHash)
-    {
-        $this->emailHash = $emailHash;
-        return $this;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getEmailHash()
-    {
-        return $this->emailHash;
     }
 
     /**

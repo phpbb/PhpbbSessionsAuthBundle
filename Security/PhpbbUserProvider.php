@@ -56,10 +56,10 @@ class PhpbbUserProvider implements UserProviderInterface
             ->entityManager
             ->getRepository(Session::class)
             ->createQueryBuilder('s')
-            ->select('s, u')
-            ->join('s.user', 'u')
-            ->where('u.id = :id')
-            ->setParameter('id', $expectedUserId)
+            ->select('s')
+            ->where('s.id = ?0')
+            ->andWhere('s.user = ?1')
+            ->setParameters([$sessionId, $expectedUserId])
             ->orderBy('s.time', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
@@ -79,7 +79,7 @@ class PhpbbUserProvider implements UserProviderInterface
 
         //update session time each minute like phpBB does
         $now = time();
-        if($now - $session->getTime() >= 60) {
+        if ($now - $session->getTime() >= 60) {
             $session->setTime($now);
             $this->entityManager->flush();
         }
