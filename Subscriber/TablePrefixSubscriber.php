@@ -47,7 +47,8 @@ class TablePrefixSubscriber implements EventSubscriber
         self::$ENTITY_NAME = [
             self::$ENTITY_NAMESPACE.'\\User',
             self::$ENTITY_NAMESPACE.'\\UserGroup',
-            self::$ENTITY_NAMESPACE.'\\Session'
+            self::$ENTITY_NAMESPACE.'\\Session',
+            self::$ENTITY_NAMESPACE.'\\SessionKey'
         ];
     }
 

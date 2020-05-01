@@ -11,10 +11,8 @@
 namespace phpBB\SessionsAuthBundle\Security;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use phpBB\SessionsAuthBundle\Entity\Session;
-use phpBB\SessionsAuthBundle\Entity\User;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+use phpBB\SessionsAuthBundle\Entity\{Session, SessionKey, User};
+use Symfony\Component\Security\Core\User\{UserInterface, UserProviderInterface};
 
 class PhpbbUserProvider implements UserProviderInterface
 {
@@ -47,10 +45,7 @@ class PhpbbUserProvider implements UserProviderInterface
         $this->roles = $roles;
     }
 
-    /**
-     * @param $apiKey
-     */
-    public function getUsernameForSessionId($sessionId, $expectedUserId, $userIp)
+    public function getUserFromSession(string $ip, string $sessionId, int $userId): ?User
     {
         $session = $this
             ->entityManager
@@ -59,7 +54,7 @@ class PhpbbUserProvider implements UserProviderInterface
             ->select('s')
             ->where('s.id = ?0')
             ->andWhere('s.user = ?1')
-            ->setParameters([$sessionId, $expectedUserId])
+            ->setParameters([$sessionId, $userId])
             ->orderBy('s.time', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
@@ -69,10 +64,10 @@ class PhpbbUserProvider implements UserProviderInterface
             !$session
             || (
                 strpos($session->getIp(), ':') !== false
-                && strpos($userIp, ':') !== false
-                && $this->shortIpv6($session->getIp(), 3) !== $this->shortIpv6($userIp, 3)
+                && strpos($ip, ':') !== false
+                && $this->shortIpv6($session->getIp(), 3) !== $this->shortIpv6($ip, 3)
             )
-            || substr($session->getIp(), 0, strrpos($session->getIp(), '.')) !== substr($userIp, 0, strrpos($userIp, '.'))
+            || substr($session->getIp(), 0, strrpos($session->getIp(), '.')) !== substr($ip, 0, strrpos($ip, '.'))
         ) {
             return null;
         }
@@ -84,7 +79,23 @@ class PhpbbUserProvider implements UserProviderInterface
             $this->entityManager->flush();
         }
 
-        return $session->getUser()->getUsername();
+        return $this->setRolesFromGroups($session->getUser());
+    }
+
+    public function checkKey(string $ip, ?string $key, int $userId): bool
+    {
+        return $this
+            ->entityManager
+            ->getRepository(SessionKey::class)
+            ->createQueryBuilder('s')
+            ->select('s.key')
+            ->where('s.key = ?0')
+            ->andWhere('s.user = ?1')
+            ->andWhere('s.lastIp = ?2')
+            ->setParameters([$key, $userId, $ip])
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult() <> null;
     }
 
     /**
@@ -93,7 +104,7 @@ class PhpbbUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $user = $this
+        return $this->setRolesFromGroups($this
             ->entityManager
             ->getRepository(User::class)
             ->createQueryBuilder('u')
@@ -102,17 +113,8 @@ class PhpbbUserProvider implements UserProviderInterface
             ->where('u.username = :username')
             ->setParameter('username', $username)
             ->getQuery()
-            ->getOneOrNullResult();
-
-        $roles = [];
-        foreach ($user->getGroups() as $group) {
-            if (!isset($this->roles[$group->getGroupId()])) {
-                throw new \Exception("Roles provided in configuration don't have id ".$group->getGroupId(), 1);
-            }
-            $roles[$group->getGroupId()] = 'ROLE_'.strtoupper($this->roles[$group->getGroupId()]);
-        }
-        uksort($roles, function($a, $b) use ($user) { return $a <> $user->getGroupId(); });
-        return $user->setRoles($roles);
+            ->getOneOrNullResult()
+        );
     }
 
     /**
@@ -131,6 +133,19 @@ class PhpbbUserProvider implements UserProviderInterface
     public function supportsClass($class)
     {
         return User::class === $class;
+    }
+
+    private function setRolesFromGroups(User $user): User
+    {
+        $roles = [];
+        foreach ($user->getGroups() as $group) {
+            if (!isset($this->roles[$group->getGroupId()])) {
+                throw new \Exception("Roles provided in configuration don't have id ".$group->getGroupId(), 1);
+            }
+            $roles[$group->getGroupId()] = 'ROLE_'.strtoupper($this->roles[$group->getGroupId()]);
+        }
+        uksort($roles, fn($a, $b) => $a <> $user->getGroupId());
+        return $user->setRoles($roles);
     }
 
     /**

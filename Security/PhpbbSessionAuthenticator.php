@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
@@ -52,9 +53,10 @@ class PhpbbSessionAuthenticator extends AbstractGuardAuthenticator
     public function getCredentials(Request $request)
     {
         return [
+            'ip' => $request->getClientIp(),
+            'key'  => md5($request->cookies->get($this->cookieName.'_k')),
             'session' => $request->cookies->get($this->cookieName.'_sid'),
-            'user' => $request->cookies->get($this->cookieName.'_u'),
-            'ip' => $request->getClientIp()
+            'user' => $request->cookies->get($this->cookieName.'_u')
         ];
     }
 
@@ -79,12 +81,14 @@ class PhpbbSessionAuthenticator extends AbstractGuardAuthenticator
             return;
         }
 
-        $username = $userProvider->getUsernameForSessionId(
-            $credentials['session'],
-            $credentials['user'],
-            $credentials['ip']
-        );
-        return $username ? $userProvider->loadUserByUsername($username) : null;
+        if ($user = $userProvider->getUserFromSession($credentials['ip'], $credentials['session'], $credentials['user'])) {
+            return $user;
+        }
+
+        if ($credentials['key'] && $userProvider->checkKey($credentials['ip'], $credentials['key'], $credentials['user'])) {
+            $this->forceLogin = true;
+            throw new CustomUserMessageAuthenticationException('valid key without session');
+        }
     }
 
     /**
@@ -125,7 +129,7 @@ class PhpbbSessionAuthenticator extends AbstractGuardAuthenticator
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        return new RedirectResponse($this->loginPage);
+        return new RedirectResponse($this->loginPage."&redirect=".$request->getRequestUri());
     }
 
     /**

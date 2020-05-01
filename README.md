@@ -89,5 +89,4 @@ security:
 
 There are some few edge functionality missing:
 
-  * `"Remember me" key expiration length (in days)` (ie. max_autologin_time) is not used, and thus if this number is grater than 1, the user will not be autamatically logged out unless he goes to the forum.
   * `Session IP validation` is considered as "A.B.C", no matter what you specified in your Admin Control Panel configuration
