@@ -10,36 +10,21 @@
 
 namespace phpBB\SessionsAuthBundle\Security;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManagerInterface;
 use phpBB\SessionsAuthBundle\Entity\{Session, SessionKey, User};
 use Symfony\Component\Security\Core\User\{UserInterface, UserProviderInterface};
 
 class PhpbbUserProvider implements UserProviderInterface
 {
-    /**
-     * @var EntityManager
-     * @access private
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
+    private array $roles = [];
 
-    /**
-     * @var array
-     * @access private
-     */
-    private $roles = [];
-
-    /**
-     * @param EntityManager $entityManager
-     * @param string $entity
-     */
-    public function __construct(ManagerRegistry $managerRegistry, $entity)
+    public function __construct(Registry $registry, string $entity)
     {
-        $this->entityManager = $managerRegistry->getManager($entity);
+        $this->entityManager = $registry->getManager($entity);
     }
 
-    /**
-     * @param array $roles
-     */
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
