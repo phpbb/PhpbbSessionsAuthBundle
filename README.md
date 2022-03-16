@@ -72,17 +72,13 @@ phpbb_sessions_auth:
 Update your security file file to match this  (`app/config/security.yml` in Symfony < 4 or `config/packages/security.yaml` in Symfony >= 4):
 ```yaml
 security:
-    providers:
-        phpbb:
-            id: phpBB\SessionsAuthBundle\Security\PhpbbUserProvider
+    enable_authenticator_manager: true
     firewalls:
         main:
             pattern: ^/
-            anonymous: true
             stateless: true # stateless should be set to true, or your symfony user may be stored in the session even if you logged out from the phpbb instance
-            guard:
-                authenticators:
-                    - phpBB\SessionsAuthBundle\Security\PhpbbSessionAuthenticator
+            custom_authenticators:
+                - phpBB\SessionsAuthBundle\Security\PhpbbSessionAuthenticator
 ```
 
 And to use remember me function you must edit the `ucp.php` in your forum to enable the redirection after detect a correct session key.
