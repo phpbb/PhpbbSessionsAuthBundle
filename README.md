@@ -85,6 +85,9 @@ security:
                     - phpBB\SessionsAuthBundle\Security\PhpbbSessionAuthenticator
 ```
 
+And to use remember me function you must edit the `ucp.php` in your forum to enable the redirection after detect a correct session key.
+Change the line `redirect(append_sid("{$phpbb_root_path}index.$phpEx"));` to `redirect($request->variable('redirect', append_sid("{$phpbb_root_path}index.$phpEx")));`
+
 ## Missing functionality
 
 There are some few edge functionality missing:
