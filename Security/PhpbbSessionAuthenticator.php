@@ -23,28 +23,29 @@ class PhpbbSessionAuthenticator extends AbstractAuthenticator
 {
     public const ANONYMOUS_USER_ID = 1;
 
-    private array $credentials;
-
     public function __construct(private string $cookieName, private string $loginPage, private string $forceLogin, private PhpbbUserProvider $userProvider) {}
 
     public function supports(Request $request): ?bool
     {
-        $this->credentials = [
+        return true;
+    }
+
+    public function authenticate(Request $request): Passport
+    {
+        $credentials = [
             'ip' => $request->getClientIp(),
             'key' => md5($request->cookies->get($this->cookieName.'_k')),
             'session' => $request->cookies->get($this->cookieName.'_sid'),
             'user' => $request->cookies->get($this->cookieName.'_u')
         ];
-        return $this->credentials['user'] && $this->credentials['user'] <> self::ANONYMOUS_USER_ID;
-    }
-
-    public function authenticate(Request $request): Passport
-    {
-        return new SelfValidatingPassport(new UserBadge("", function() {
-            if ($user = $this->userProvider->getUserFromSession($this->credentials['ip'], $this->credentials['session'], $this->credentials['user'])) {
+        return new SelfValidatingPassport(new UserBadge("", function() use ($credentials) {
+            if (!$credentials['user'] || $credentials['user'] == self::ANONYMOUS_USER_ID) {
+                return null;
+            }
+            if ($user = $this->userProvider->getUserFromSession($credentials['ip'], $credentials['session'], $credentials['user'])) {
                 return $user;
             }
-            if ($this->credentials['key'] && $this->userProvider->checkKey($this->credentials['ip'], $this->credentials['key'], $this->credentials['user'])) {
+            if ($credentials['key'] && $this->userProvider->checkKey($credentials['ip'], $credentials['key'], $credentials['user'])) {
                 $this->forceLogin = true;
                 return null;
             }
