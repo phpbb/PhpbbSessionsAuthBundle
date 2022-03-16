@@ -83,11 +83,8 @@ class PhpbbUserProvider implements UserProviderInterface
             ->getOneOrNullResult() <> null;
     }
 
-    /**
-     * @param string $username
-     * @return UserInterface|void
-     */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername(string $username): UserInterface
+    {
     {
         return $this->setRolesFromGroups($this
             ->entityManager
@@ -102,20 +99,12 @@ class PhpbbUserProvider implements UserProviderInterface
         );
     }
 
-    /**
-     * @param UserInterface $user
-     * @return UserInterface|void
-     */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface
     {
         return $user;
     }
 
-    /**
-     * @param string $class
-     * @return bool
-     */
-    public function supportsClass($class)
+    public function supportsClass(string $class): bool
     {
         return User::class === $class;
     }
