@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\{Request, Response, RedirectResponse};
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
-use Symfony\Component\Security\Http\Authenticator\Passport\{Badge\UserBadge, PassportInterface, SelfValidatingPassport};
+use Symfony\Component\Security\Http\Authenticator\Passport\{Badge\UserBadge, Passport, SelfValidatingPassport};
 
 /**
  * @author TeLiXj <telixj@gmail.com>
@@ -38,7 +38,7 @@ class PhpbbSessionAuthenticator extends AbstractAuthenticator
         return $this->credentials['user'] && $this->credentials['user'] <> self::ANONYMOUS_USER_ID;
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
         return new SelfValidatingPassport(new UserBadge("", function() {
             if ($user = $this->userProvider->getUserFromSession($this->credentials['ip'], $this->credentials['session'], $this->credentials['user'])) {
