@@ -122,7 +122,7 @@ class PhpbbUserProvider implements UserProviderInterface
             }
             $roles[$group->getGroupId()] = 'ROLE_'.strtoupper($this->roles[$group->getGroupId()]);
         }
-        uksort($roles, fn($a, $b) => $a <> $user->getGroupId());
+        uksort($roles, fn($a, $b) => $a <=> $user->getGroupId());
         return $user->setRoles($roles);
     }
 
