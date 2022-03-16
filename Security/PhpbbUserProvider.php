@@ -85,6 +85,10 @@ class PhpbbUserProvider implements UserProviderInterface
 
     public function loadUserByUsername(string $username): UserInterface
     {
+        return $this->loadUserByIdentifier($username);
+    }
+
+    public function loadUserByIdentifier(string $identifier): UserInterface
     {
         return $this->setRolesFromGroups($this
             ->entityManager
@@ -93,7 +97,7 @@ class PhpbbUserProvider implements UserProviderInterface
             ->select('u, ug')
             ->join('u.groups', 'ug')
             ->where('u.username = :username')
-            ->setParameter('username', $username)
+            ->setParameter('username', $identifier)
             ->getQuery()
             ->getOneOrNullResult()
         );

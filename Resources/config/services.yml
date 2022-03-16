@@ -11,6 +11,7 @@ services:
             - "%phpbb_sessions_auth.session.cookie_name%"
             - "%phpbb_sessions_auth.session.login_page%"
             - "%phpbb_sessions_auth.session.force_login%"
+            - "@phpBB\\SessionsAuthBundle\\Security\\PhpbbUserProvider"
 
     phpBB\SessionsAuthBundle\Security\PhpbbUserProvider:
         public: false
