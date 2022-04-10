@@ -42,13 +42,13 @@ class PhpbbSessionAuthenticator extends AbstractAuthenticator
             if (!$credentials['user'] || $credentials['user'] == self::ANONYMOUS_USER_ID) {
                 return null;
             }
-            if ($user = $this->userProvider->getUserFromSession($credentials['ip'], $credentials['session'], $credentials['user'])) {
+            if ($credentials['session'] && ($user = $this->userProvider->getUserFromSession($credentials['ip'], $credentials['session'], $credentials['user']))) {
                 return $user;
             }
             if ($credentials['key'] && $this->userProvider->checkKey($credentials['ip'], $credentials['key'], $credentials['user'])) {
                 $this->forceLogin = true;
-                return null;
             }
+            return null;
         }));
     }
 
