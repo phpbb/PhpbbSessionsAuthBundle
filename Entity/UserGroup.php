@@ -1,31 +1,25 @@
 <?php
 /**
- *
- * @package phpBBSessionsAuthBundle
  * @copyright (c) phpBB Limited <https://www.phpbb.com>
  * @license MIT
- *
  */
+
 namespace phpBB\SessionsAuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Class User
- * @package phpbb\SessionsAuthBundle\Entity
- */
 #[ORM\Table(name: 'user_group')]
 #[ORM\Entity(readOnly: true)]
 class UserGroup
 {
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Id]
     #[ORM\Column(name: 'group_id')]
     private ?int $groupId = null;
 
-     /**
+    /**
      * @var User
      */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'groups')]
@@ -33,29 +27,31 @@ class UserGroup
     private $user;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'group_leader')]
     private ?bool $groupLeader = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_pending')]
     private ?bool $userPending = null;
 
     /**
-     * @param integer $groupId
+     * @param int $groupId
+     *
      * @return UserGroup
      */
     public function setGroupId($groupId)
     {
         $this->groupId = $groupId;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getGroupId()
     {
@@ -63,17 +59,19 @@ class UserGroup
     }
 
     /**
-     * @param integer $user
+     * @param int $user
+     *
      * @return UserGroup
      */
     public function setUser($user)
     {
         $this->userId = $user;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getUser()
     {
@@ -81,17 +79,19 @@ class UserGroup
     }
 
     /**
-     * @param boolean $groupLeader
+     * @param bool $groupLeader
+     *
      * @return UserGroup
      */
     public function setGroupLeader($groupLeader)
     {
         $this->groupLeader = $groupLeader;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getGroupLeader()
     {
@@ -99,17 +99,19 @@ class UserGroup
     }
 
     /**
-     * @param boolean $userPending
+     * @param bool $userPending
+     *
      * @return UserGroup
      */
     public function setUserPending($userPending)
     {
         $this->userPending = $userPending;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getUserPending()
     {

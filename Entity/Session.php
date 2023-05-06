@@ -1,19 +1,13 @@
 <?php
 /**
- *
- * @package phpBBSessionsAuthBundle
  * @copyright (c) phpBB Limited <https://www.phpbb.com>
  * @license MIT
- *
  */
+
 namespace phpBB\SessionsAuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Class Session
- * @package phpbb\SessionsAuthBundle\Entity
- */
 #[ORM\Table(name: 'sessions')]
 #[ORM\Entity]
 class Session
@@ -34,26 +28,23 @@ class Session
     private $user;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'session_forum_id')]
     private ?int $forumId = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'session_last_visit')]
     private ?int $lastVisit = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'session_start')]
     private ?int $start = null;
 
-    /**
-     * @var
-     */
     #[ORM\Column(name: 'session_time')]
     private ?int $time = null;
 
@@ -82,19 +73,19 @@ class Session
     private ?string $page = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'session_viewonline')]
     private ?bool $viewonline = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'session_autologin')]
     private ?bool $autologin = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'session_admin')]
     private ?bool $admin = null;
@@ -113,6 +104,7 @@ class Session
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -130,21 +122,24 @@ class Session
     public function setUser($user)
     {
         $this->user = $user;
+
         return $this;
     }
 
     /**
-     * @param integer $ForumId
+     * @param int $ForumId
+     *
      * @return Sessions
      */
     public function setForumId($forumId)
     {
         $this->forumId = $forumId;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getForumId()
     {
@@ -152,17 +147,19 @@ class Session
     }
 
     /**
-     * @param integer $lastVisit
+     * @param int $lastVisit
+     *
      * @return Sessions
      */
     public function setLastVisit($lastVisit)
     {
         $this->lastVisit = $lastVisit;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLastVisit()
     {
@@ -170,17 +167,19 @@ class Session
     }
 
     /**
-     * @param integer $start
+     * @param int $start
+     *
      * @return Sessions
      */
     public function setStart($start)
     {
         $this->start = $start;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getStart()
     {
@@ -198,6 +197,7 @@ class Session
     public function setTime(mixed $time)
     {
         $this->time = $time;
+
         return $this;
     }
 
@@ -215,16 +215,19 @@ class Session
     public function setIp($ip)
     {
         $this->ip = $ip;
+
         return $this;
     }
 
     /**
      * @param string $browser
+     *
      * @return Sessions
      */
     public function setBrowser($browser)
     {
         $this->browser = $browser;
+
         return $this;
     }
 
@@ -238,11 +241,13 @@ class Session
 
     /**
      * @param string $forwardedFor
+     *
      * @return Sessions
      */
     public function setForwardedFor($forwardedFor)
     {
         $this->forwardedFor = $forwardedFor;
+
         return $this;
     }
 
@@ -256,11 +261,13 @@ class Session
 
     /**
      * @param string $page
+     *
      * @return Sessions
      */
     public function setPage($page)
     {
         $this->page = $page;
+
         return $this;
     }
 
@@ -273,17 +280,19 @@ class Session
     }
 
     /**
-     * @param boolean $viewonline
+     * @param bool $viewonline
+     *
      * @return Sessions
      */
     public function setViewonline($viewonline)
     {
         $this->viewonline = $viewonline;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getViewonline()
     {
@@ -291,7 +300,7 @@ class Session
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAutologin()
     {
@@ -299,17 +308,19 @@ class Session
     }
 
     /**
-     * @param boolean $autologin
+     * @param bool $autologin
+     *
      * @return Session
      */
     public function setAutologin($autologin)
     {
         $this->autologin = $autologin;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAdmin()
     {
@@ -317,12 +328,14 @@ class Session
     }
 
     /**
-     * @param boolean $admin
+     * @param bool $admin
+     *
      * @return Sessions
      */
     public function setAdmin($admin)
     {
         $this->admin = $admin;
+
         return $this;
     }
 }

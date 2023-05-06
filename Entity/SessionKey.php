@@ -33,6 +33,7 @@ class SessionKey
     public function setKey(string $key): self
     {
         $this->key = $key;
+
         return $this;
     }
 
@@ -44,6 +45,7 @@ class SessionKey
     public function setUser(User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -55,6 +57,7 @@ class SessionKey
     public function setLastIp(string $lastIp): self
     {
         $this->lastIp = $lastIp;
+
         return $this;
     }
 
@@ -66,6 +69,7 @@ class SessionKey
     public function setLastLogin(int $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
+
         return $this;
     }
 }

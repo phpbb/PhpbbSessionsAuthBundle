@@ -1,19 +1,20 @@
 <?php
 
 /**
- *
- * @package phpBBSessionsAuthBundle
  * @copyright (c) phpBB Limited <https://www.phpbb.com>
  * @license MIT
- *
  */
 
 namespace phpBB\SessionsAuthBundle\Security;
 
+use Exception;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
-use phpBB\SessionsAuthBundle\Entity\{Session, SessionKey, User};
-use Symfony\Component\Security\Core\User\{UserInterface, UserProviderInterface};
+use phpBB\SessionsAuthBundle\Entity\Session;
+use phpBB\SessionsAuthBundle\Entity\SessionKey;
+use phpBB\SessionsAuthBundle\Entity\User;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class PhpbbUserProvider implements UserProviderInterface
 {
@@ -45,7 +46,7 @@ class PhpbbUserProvider implements UserProviderInterface
             ->getQuery()
             ->getOneOrNullResult();
 
-        if ( //check if have session and cookie ip (v6 or v4) are equal to session id
+        if ( // check if have session and cookie ip (v6 or v4) are equal to session id
             !$session
             || (
                 str_contains($session->getIp(), ':')
@@ -57,7 +58,7 @@ class PhpbbUserProvider implements UserProviderInterface
             return null;
         }
 
-        //update session time each minute like phpBB does
+        // update session time each minute like phpBB does
         $now = time();
         if ($now - $session->getTime() >= 60) {
             $session->setTime($now);
@@ -69,7 +70,7 @@ class PhpbbUserProvider implements UserProviderInterface
 
     public function checkKey(string $ip, ?string $key, int $userId): bool
     {
-        return $this
+        return null != $this
             ->entityManager
             ->getRepository(SessionKey::class)
             ->createQueryBuilder('s')
@@ -80,7 +81,7 @@ class PhpbbUserProvider implements UserProviderInterface
             ->setParameters([$key, $userId, $ip])
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult() <> null;
+            ->getOneOrNullResult();
     }
 
     public function loadUserByUsername(string $username): UserInterface
@@ -118,11 +119,12 @@ class PhpbbUserProvider implements UserProviderInterface
         $roles = [];
         foreach ($user->getGroups() as $group) {
             if (!isset($this->roles[$group->getGroupId()])) {
-                throw new \Exception("Roles provided in configuration don't have id ".$group->getGroupId(), 1);
+                throw new Exception("Roles provided in configuration don't have id ".$group->getGroupId(), 1);
             }
             $roles[$group->getGroupId()] = 'ROLE_'.strtoupper($this->roles[$group->getGroupId()]);
         }
-        uksort($roles, fn($a, $b) => $a <=> $user->getGroupId());
+        uksort($roles, fn ($a, $b) => $a <=> $user->getGroupId());
+
         return $user->setRoles($roles);
     }
 
@@ -130,13 +132,14 @@ class PhpbbUserProvider implements UserProviderInterface
      * Returns the first block of the specified IPv6 address and as many additional
      * ones as specified in the length paramater.
      * If length is zero, then an empty string is returned.
-     * If length is greater than 3 the complete IP will be returned
+     * If length is greater than 3 the complete IP will be returned.
      *
      * @copyright (c) phpBB Limited <https://www.phpbb.com>
      * @license GNU General Public License, version 2 (GPL-2.0)
      *
      * @param string $ip
-     * @param integer $length
+     * @param int    $length
+     *
      * @return mixed|string
      */
     private function shortIpv6($ip, $length)
@@ -148,12 +151,13 @@ class PhpbbUserProvider implements UserProviderInterface
         // extend IPv6 addresses
         $blocks = substr_count($ip, ':') + 1;
         if ($blocks < 9) {
-            $ip = str_replace('::', ':' . str_repeat('0000:', 9 - $blocks), $ip);
-        } elseif ($ip[0] == ':') {
-            $ip = '0000' . $ip;
+            $ip = str_replace('::', ':'.str_repeat('0000:', 9 - $blocks), $ip);
+        } elseif (':' == $ip[0]) {
+            $ip = '0000'.$ip;
         } elseif ($length < 4) {
             $ip = implode(':', array_slice(explode(':', $ip), 0, 1 + $length));
         }
+
         return $ip;
     }
 }

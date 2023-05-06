@@ -1,41 +1,35 @@
 <?php
 /**
- *
- * @package phpBBSessionsAuthBundle
  * @copyright (c) phpBB Limited <https://www.phpbb.com>
  * @license MIT
- *
  */
+
 namespace phpBB\SessionsAuthBundle\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * Class User
- * @package phpbb\SessionsAuthBundle\Entity
- */
 #[ORM\Table(name: 'users')]
 #[ORM\Entity(readOnly: true)]
 class User implements UserInterface
 {
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_id')]
     #[ORM\Id]
     private ?int $id = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_type')]
     private ?bool $type = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'group_id')]
     private ?int $groupId = null;
@@ -47,7 +41,7 @@ class User implements UserInterface
     private ?string $permissions = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_perm_from')]
     private ?int $permFrom = null;
@@ -59,7 +53,7 @@ class User implements UserInterface
     private ?string $ip = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_regdate')]
     private ?int $regdate = null;
@@ -83,7 +77,7 @@ class User implements UserInterface
     private ?string $password = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_passchg')]
     private ?int $passchg = null;
@@ -101,19 +95,19 @@ class User implements UserInterface
     private ?string $birthday = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_lastvisit')]
     private ?int $lastvisit = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_lastmark')]
     private ?int $lastmark = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_lastpost_time')]
     private ?int $lastpostTime = null;
@@ -131,43 +125,43 @@ class User implements UserInterface
     private ?string $lastConfirmKey = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_last_search')]
     private ?int $lastSearch = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_warnings')]
     private ?bool $warnings = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_last_warning')]
     private ?int $lastWarning = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_login_attempts')]
     private ?bool $loginAttempts = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_inactive_reason')]
     private ?bool $inactiveReason = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_inactive_time')]
     private ?int $inactiveTime = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_posts')]
     private ?int $posts = null;
@@ -191,13 +185,13 @@ class User implements UserInterface
     private ?string $dateformat = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_style')]
     private ?int $style = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_rank')]
     private ?int $rank = null;
@@ -209,43 +203,43 @@ class User implements UserInterface
     private ?string $colour = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_new_privmsg')]
     private ?int $newPrivmsg = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_unread_privmsg')]
     private ?int $unreadPrivmsg = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_last_privmsg')]
     private ?int $lastPrivmsg = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_message_rules')]
     private ?bool $messageRules = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_full_folder')]
     private ?int $fullFolder = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_emailtime')]
     private ?int $emailtime = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_topic_show_days', type: Types::SMALLINT)]
     private ?int $topicShowDays = null;
@@ -263,7 +257,7 @@ class User implements UserInterface
     private ?string $topicSortbyDir = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_post_show_days', type: Types::SMALLINT)]
     private ?int $postShowDays = null;
@@ -281,49 +275,49 @@ class User implements UserInterface
     private ?string $postSortbyDir = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_notify')]
     private ?bool $notify = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_notify_pm')]
     private ?bool $notifyPm = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_notify_type')]
     private ?bool $notifyType = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_allow_pm')]
     private ?bool $allowPm = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_allow_viewonline')]
     private ?bool $allowViewonline = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_allow_viewemail')]
     private ?bool $allowViewemail = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_allow_massemail')]
     private ?bool $allowMassemail = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_options')]
     private ?int $options = null;
@@ -335,19 +329,19 @@ class User implements UserInterface
     private ?string $avatar = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_avatar_type')]
     private ?bool $avatarType = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_avatar_width', type: Types::SMALLINT)]
     private ?int $avatarWidth = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_avatar_height', type: Types::SMALLINT)]
     private ?int $avatarHeight = null;
@@ -395,19 +389,19 @@ class User implements UserInterface
     private ?string $formSalt = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_new')]
     private ?bool $new = null;
 
     /**
-     * @var boolean
+     * @var bool
      */
     #[ORM\Column(name: 'user_reminded')]
     private ?bool $reminded = null;
 
     /**
-     * @var integer
+     * @var int
      */
     #[ORM\Column(name: 'user_reminded_time')]
     private ?int $remindedTime = null;
@@ -427,7 +421,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -435,27 +429,31 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $id
+     * @param int $id
+     *
      * @return User
      */
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
     /**
-     * @param boolean $type
+     * @param bool $type
+     *
      * @return User
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getType()
     {
@@ -463,17 +461,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $groupId
+     * @param int $groupId
+     *
      * @return User
      */
     public function setGroupId($groupId)
     {
         $this->groupId = $groupId;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getGroupId()
     {
@@ -482,11 +482,13 @@ class User implements UserInterface
 
     /**
      * @param string $permissions
+     *
      * @return User
      */
     public function setPermissions($permissions)
     {
         $this->permissions = $permissions;
+
         return $this;
     }
 
@@ -499,17 +501,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $permFrom
+     * @param int $permFrom
+     *
      * @return User
      */
     public function setPermFrom($permFrom)
     {
         $this->permFrom = $permFrom;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getPermFrom()
     {
@@ -518,11 +522,13 @@ class User implements UserInterface
 
     /**
      * @param string $ip
+     *
      * @return User
      */
     public function setIp($ip)
     {
         $this->ip = $ip;
+
         return $this;
     }
 
@@ -535,17 +541,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $regdate
+     * @param int $regdate
+     *
      * @return User
      */
     public function setRegdate($regdate)
     {
         $this->regdate = $regdate;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getRegdate()
     {
@@ -554,11 +562,13 @@ class User implements UserInterface
 
     /**
      * @param string $username
+     *
      * @return User
      */
     public function setUsername($username)
     {
         $this->username = $username;
+
         return $this;
     }
 
@@ -572,11 +582,13 @@ class User implements UserInterface
 
     /**
      * @param string $usernameClean
+     *
      * @return User
      */
     public function setUsernameClean($usernameClean)
     {
         $this->nameClean = $usernameClean;
+
         return $this;
     }
 
@@ -590,16 +602,17 @@ class User implements UserInterface
 
     /**
      * @param string $password
+     *
      * @return User
      */
     public function setPassword($password)
     {
         $this->password = $password;
+
         return $this;
     }
 
     /**
-     *
      * Returns the password used to authenticate the user.
      *
      * This should be the encoded password. On authentication, a plain-text
@@ -618,17 +631,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $passchg
+     * @param int $passchg
+     *
      * @return User
      */
     public function setPasschg($passchg)
     {
         $this->passchg = $passchg;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getPasschg()
     {
@@ -637,11 +652,13 @@ class User implements UserInterface
 
     /**
      * @param string $email
+     *
      * @return User
      */
     public function setEmail($email)
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -655,11 +672,13 @@ class User implements UserInterface
 
     /**
      * @param string $birthday
+     *
      * @return User
      */
     public function setBirthday($birthday)
     {
         $this->birthday = $birthday;
+
         return $this;
     }
 
@@ -672,17 +691,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $lastvisit
+     * @param int $lastvisit
+     *
      * @return User
      */
     public function setLastvisit($lastvisit)
     {
         $this->lastvisit = $lastvisit;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLastvisit()
     {
@@ -690,17 +711,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $lastmark
+     * @param int $lastmark
+     *
      * @return User
      */
     public function setLastmark($lastmark)
     {
         $this->lastmark = $lastmark;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLastmark()
     {
@@ -708,17 +731,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $lastpostTime
+     * @param int $lastpostTime
+     *
      * @return User
      */
     public function setLastpostTime($lastpostTime)
     {
         $this->lastpostTime = $lastpostTime;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLastpostTime()
     {
@@ -727,11 +752,13 @@ class User implements UserInterface
 
     /**
      * @param string $lastpage
+     *
      * @return User
      */
     public function setLastpage($lastpage)
     {
         $this->lastpage = $lastpage;
+
         return $this;
     }
 
@@ -745,11 +772,13 @@ class User implements UserInterface
 
     /**
      * @param string $lastConfirmKey
+     *
      * @return User
      */
     public function setLastConfirmKey($lastConfirmKey)
     {
         $this->lastConfirmKey = $lastConfirmKey;
+
         return $this;
     }
 
@@ -762,17 +791,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $lastSearch
+     * @param int $lastSearch
+     *
      * @return User
      */
     public function setLastSearch($lastSearch)
     {
         $this->lastSearch = $lastSearch;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLastSearch()
     {
@@ -780,17 +811,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $warnings
+     * @param bool $warnings
+     *
      * @return User
      */
     public function setWarnings($warnings)
     {
         $this->warnings = $warnings;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getWarnings()
     {
@@ -798,17 +831,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $lastWarning
+     * @param int $lastWarning
+     *
      * @return User
      */
     public function setLastWarning($lastWarning)
     {
         $this->lastWarning = $lastWarning;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLastWarning()
     {
@@ -816,17 +851,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $loginAttempts
+     * @param bool $loginAttempts
+     *
      * @return User
      */
     public function setLoginAttempts($loginAttempts)
     {
         $this->loginAttempts = $loginAttempts;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getLoginAttempts()
     {
@@ -834,17 +871,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $inactiveReason
+     * @param bool $inactiveReason
+     *
      * @return User
      */
     public function setInactiveReason($inactiveReason)
     {
         $this->inactiveReason = $inactiveReason;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getInactiveReason()
     {
@@ -852,17 +891,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $inactiveTime
+     * @param int $inactiveTime
+     *
      * @return User
      */
     public function setInactiveTime($inactiveTime)
     {
         $this->inactiveTime = $inactiveTime;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getInactiveTime()
     {
@@ -870,17 +911,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $posts
+     * @param int $posts
+     *
      * @return User
      */
     public function setPosts($posts)
     {
         $this->posts = $posts;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getPosts()
     {
@@ -889,11 +932,13 @@ class User implements UserInterface
 
     /**
      * @param string $lang
+     *
      * @return User
      */
     public function setLang($lang)
     {
         $this->lang = $lang;
+
         return $this;
     }
 
@@ -907,11 +952,13 @@ class User implements UserInterface
 
     /**
      * @param float $timezone
+     *
      * @return User
      */
     public function setTimezone($timezone)
     {
         $this->timezone = $timezone;
+
         return $this;
     }
 
@@ -925,11 +972,13 @@ class User implements UserInterface
 
     /**
      * @param string $dateformat
+     *
      * @return User
      */
     public function setDateformat($dateformat)
     {
         $this->dateformat = $dateformat;
+
         return $this;
     }
 
@@ -942,17 +991,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $style
+     * @param int $style
+     *
      * @return User
      */
     public function setStyle($style)
     {
         $this->style = $style;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getStyle()
     {
@@ -960,17 +1011,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $rank
+     * @param int $rank
+     *
      * @return User
      */
     public function setRank($rank)
     {
         $this->rank = $rank;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getRank()
     {
@@ -979,11 +1032,13 @@ class User implements UserInterface
 
     /**
      * @param string $colour
+     *
      * @return User
      */
     public function setColour($colour)
     {
         $this->colour = $colour;
+
         return $this;
     }
 
@@ -996,17 +1051,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $newPrivmsg
+     * @param int $newPrivmsg
+     *
      * @return User
      */
     public function setNewPrivmsg($newPrivmsg)
     {
         $this->newPrivmsg = $newPrivmsg;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getNewPrivmsg()
     {
@@ -1014,17 +1071,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $unreadPrivmsg
+     * @param int $unreadPrivmsg
+     *
      * @return User
      */
     public function setUnreadPrivmsg($unreadPrivmsg)
     {
         $this->unreadPrivmsg = $unreadPrivmsg;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getUnreadPrivmsg()
     {
@@ -1032,17 +1091,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $lastPrivmsg
+     * @param int $lastPrivmsg
+     *
      * @return User
      */
     public function setLastPrivmsg($lastPrivmsg)
     {
         $this->lastPrivmsg = $lastPrivmsg;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getLastPrivmsg()
     {
@@ -1050,17 +1111,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $messageRules
+     * @param bool $messageRules
+     *
      * @return User
      */
     public function setMessageRules($messageRules)
     {
         $this->messageRules = $messageRules;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getMessageRules()
     {
@@ -1068,17 +1131,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $fullFolder
+     * @param int $fullFolder
+     *
      * @return User
      */
     public function setFullFolder($fullFolder)
     {
         $this->fullFolder = $fullFolder;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getFullFolder()
     {
@@ -1086,17 +1151,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $emailtime
+     * @param int $emailtime
+     *
      * @return User
      */
     public function setEmailtime($emailtime)
     {
         $this->emailtime = $emailtime;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getEmailtime()
     {
@@ -1104,17 +1171,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $topicShowDays
+     * @param int $topicShowDays
+     *
      * @return User
      */
     public function setTopicShowDays($topicShowDays)
     {
         $this->topicShowDays = $topicShowDays;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getTopicShowDays()
     {
@@ -1123,11 +1192,13 @@ class User implements UserInterface
 
     /**
      * @param string $topicSortbyType
+     *
      * @return User
      */
     public function setTopicSortbyType($topicSortbyType)
     {
         $this->topicSortbyType = $topicSortbyType;
+
         return $this;
     }
 
@@ -1141,11 +1212,13 @@ class User implements UserInterface
 
     /**
      * @param string $topicSortbyDir
+     *
      * @return User
      */
     public function setTopicSortbyDir($topicSortbyDir)
     {
         $this->topicSortbyDir = $topicSortbyDir;
+
         return $this;
     }
 
@@ -1158,17 +1231,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $postShowDays
+     * @param int $postShowDays
+     *
      * @return User
      */
     public function setPostShowDays($postShowDays)
     {
         $this->postShowDays = $postShowDays;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getPostShowDays()
     {
@@ -1177,11 +1252,13 @@ class User implements UserInterface
 
     /**
      * @param string $postSortbyType
+     *
      * @return User
      */
     public function setPostSortbyType($postSortbyType)
     {
         $this->postSortbyType = $postSortbyType;
+
         return $this;
     }
 
@@ -1195,11 +1272,13 @@ class User implements UserInterface
 
     /**
      * @param string $postSortbyDir
+     *
      * @return User
      */
     public function setPostSortbyDir($postSortbyDir)
     {
         $this->postSortbyDir = $postSortbyDir;
+
         return $this;
     }
 
@@ -1212,17 +1291,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $notify
+     * @param bool $notify
+     *
      * @return User
      */
     public function setNotify($notify)
     {
         $this->notify = $notify;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getNotify()
     {
@@ -1230,17 +1311,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $notifyPm
+     * @param bool $notifyPm
+     *
      * @return User
      */
     public function setNotifyPm($notifyPm)
     {
         $this->notifyPm = $notifyPm;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getNotifyPm()
     {
@@ -1248,17 +1331,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $notifyType
+     * @param bool $notifyType
+     *
      * @return User
      */
     public function setNotifyType($notifyType)
     {
         $this->notifyType = $notifyType;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getNotifyType()
     {
@@ -1266,17 +1351,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $allowPm
+     * @param bool $allowPm
+     *
      * @return User
      */
     public function setAllowPm($allowPm)
     {
         $this->allowPm = $allowPm;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAllowPm()
     {
@@ -1284,17 +1371,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $allowViewonline
+     * @param bool $allowViewonline
+     *
      * @return User
      */
     public function setAllowViewonline($allowViewonline)
     {
         $this->allowViewonline = $allowViewonline;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAllowViewonline()
     {
@@ -1302,17 +1391,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $allowViewemail
+     * @param bool $allowViewemail
+     *
      * @return User
      */
     public function setAllowViewemail($allowViewemail)
     {
         $this->allowViewemail = $allowViewemail;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAllowViewemail()
     {
@@ -1320,17 +1411,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $allowMassemail
+     * @param bool $allowMassemail
+     *
      * @return User
      */
     public function setAllowMassemail($allowMassemail)
     {
         $this->allowMassemail = $allowMassemail;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAllowMassemail()
     {
@@ -1338,17 +1431,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $options
+     * @param int $options
+     *
      * @return User
      */
     public function setOptions($options)
     {
         $this->Options = $options;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getOptions()
     {
@@ -1357,11 +1452,13 @@ class User implements UserInterface
 
     /**
      * @param string $avatar
+     *
      * @return User
      */
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
+
         return $this;
     }
 
@@ -1374,17 +1471,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $avatarType
+     * @param bool $avatarType
+     *
      * @return User
      */
     public function setAvatarType($avatarType)
     {
         $this->avatarType = $avatarType;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAvatarType()
     {
@@ -1392,17 +1491,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $avatarWidth
+     * @param int $avatarWidth
+     *
      * @return User
      */
     public function setAvatarWidth($avatarWidth)
     {
         $this->avatarWidth = $avatarWidth;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getAvatarWidth()
     {
@@ -1410,17 +1511,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $avatarHeight
+     * @param int $avatarHeight
+     *
      * @return User
      */
     public function setAvatarHeight($avatarHeight)
     {
         $this->avatarHeight = $avatarHeight;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getAvatarHeight()
     {
@@ -1429,11 +1532,13 @@ class User implements UserInterface
 
     /**
      * @param string $sig
+     *
      * @return User
      */
     public function setSig($sig)
     {
         $this->sig = $sig;
+
         return $this;
     }
 
@@ -1447,11 +1552,13 @@ class User implements UserInterface
 
     /**
      * @param string $sigBbcodeUid
+     *
      * @return User
      */
     public function setSigBbcodeUid($sigBbcodeUid)
     {
         $this->sigBbcodeUid = $sigBbcodeUid;
+
         return $this;
     }
 
@@ -1465,11 +1572,13 @@ class User implements UserInterface
 
     /**
      * @param string $sigBbcodeBitfield
+     *
      * @return User
      */
     public function setSigBbcodeBitfield($sigBbcodeBitfield)
     {
         $this->sigBbcodeBitfield = $sigBbcodeBitfield;
+
         return $this;
     }
 
@@ -1483,11 +1592,13 @@ class User implements UserInterface
 
     /**
      * @param string $jabber
+     *
      * @return User
      */
     public function setJabber($jabber)
     {
         $this->jabber = $jabber;
+
         return $this;
     }
 
@@ -1501,11 +1612,13 @@ class User implements UserInterface
 
     /**
      * @param string $actkey
+     *
      * @return User
      */
     public function setActkey($actkey)
     {
         $this->actkey = $actkey;
+
         return $this;
     }
 
@@ -1519,11 +1632,13 @@ class User implements UserInterface
 
     /**
      * @param string $newpasswd
+     *
      * @return User
      */
     public function setNewpasswd($newpasswd)
     {
         $this->newpasswd = $newpasswd;
+
         return $this;
     }
 
@@ -1537,11 +1652,13 @@ class User implements UserInterface
 
     /**
      * @param string $formSalt
+     *
      * @return User
      */
     public function setFormSalt($formSalt)
     {
         $this->formSalt = $formSalt;
+
         return $this;
     }
 
@@ -1554,17 +1671,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $new
+     * @param bool $new
+     *
      * @return User
      */
     public function setNew($new)
     {
         $this->new = $new;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getNew()
     {
@@ -1572,17 +1691,19 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $reminded
+     * @param bool $reminded
+     *
      * @return User
      */
     public function setReminded($reminded)
     {
         $this->reminded = $reminded;
+
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getReminded()
     {
@@ -1590,26 +1711,25 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $remindedTime
+     * @param int $remindedTime
+     *
      * @return User
      */
     public function setRemindedTime($remindedTime)
     {
         $this->remindedTime = $remindedTime;
+
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getRemindedTime()
     {
         return $this->remindedTime;
     }
 
-    /**
-     * @return array
-     */
     public function getRoles(): array
     {
         return $this->roles;
@@ -1618,6 +1738,7 @@ class User implements UserInterface
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
+
         return $this;
     }
 
@@ -1681,7 +1802,9 @@ class User implements UserInterface
      * This is important if, at any given point, sensitive information like
      * the plain-text password is stored on this object.
      */
-    public function eraseCredentials() {}
+    public function eraseCredentials()
+    {
+    }
 
     public function getUserIdentifier(): string
     {
