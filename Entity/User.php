@@ -10,7 +10,6 @@ namespace phpBB\SessionsAuthBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -412,22 +411,17 @@ class User implements UserInterface
      */
     private $remindedTime;
 
+    private array $roles = [];
+
     /**
-     * @var array
+     * @ORM\OneToMany(targetEntity="UserGroup", mappedBy="user")
      */
-    private $roles = [];
+    private ArrayCollection $groups;
 
     /**
-    * @var ArrayCollection
-    * @ORM\OneToMany(targetEntity="UserGroup", mappedBy="user")
-    */
-    private $groups;
-
-    /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Session", mappedBy="user")
      */
-    private $sessions;
+    private ArrayCollection $sessions;
 
     public function __construct()
     {
@@ -1624,9 +1618,6 @@ class User implements UserInterface
         return $this->roles;
     }
 
-    /**
-     * @param array $roles
-     */
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
@@ -1672,7 +1663,7 @@ class User implements UserInterface
      *
      * @return string|null The salt
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }

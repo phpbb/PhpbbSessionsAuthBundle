@@ -11,31 +11,29 @@ use Doctrine\ORM\Mapping as ORM;
 class SessionKey
 {
     /**
-     * @var string
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\Column(name="key_id", type="string", length=32, nullable=false)
      */
-    private $key;
+    private ?string $key = null;
 
     /**
-     * @var User
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     /**
      * @ORM\Column(name="last_ip", type="string", length=40)
      */
-    private $lastIp;
+    private ?string $lastIp = null;
 
     /**
      * @ORM\Column(name="last_login", type="integer")
      */
-    private $lastLogin;
+    private ?int $lastLogin = null;
 
     public function getKey(): ?string
     {

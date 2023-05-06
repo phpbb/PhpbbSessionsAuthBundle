@@ -21,20 +21,16 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  */
 class TablePrefixSubscriber implements EventSubscriber
 {
-
     /**
      * Namespace the entity is in
      */
-    private static $ENTITY_NAMESPACE = 'phpBB\\SessionsAuthBundle\\Entity';
+    private const ENTITY_NAMESPACE = 'phpBB\\SessionsAuthBundle\\Entity';
     /**
      * Entity that will receive the prefix
      */
-    private static $ENTITY_NAME;
+    private array $entity_name;
 
-    /**
-     * @var string
-     */
-    private $prefix = '';
+    private string $prefix = '';
 
     /**
      * Constructor
@@ -44,11 +40,11 @@ class TablePrefixSubscriber implements EventSubscriber
     public function __construct($prefix)
     {
         $this->prefix = (string) $prefix;
-        self::$ENTITY_NAME = [
-            self::$ENTITY_NAMESPACE.'\\User',
-            self::$ENTITY_NAMESPACE.'\\UserGroup',
-            self::$ENTITY_NAMESPACE.'\\Session',
-            self::$ENTITY_NAMESPACE.'\\SessionKey'
+        $this->entity_name = [
+            self::ENTITY_NAMESPACE.'\\User',
+            self::ENTITY_NAMESPACE.'\\UserGroup',
+            self::ENTITY_NAMESPACE.'\\Session',
+            self::ENTITY_NAMESPACE.'\\SessionKey'
         ];
     }
 
@@ -59,13 +55,12 @@ class TablePrefixSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array('loadClassMetadata');
+        return ['loadClassMetadata'];
     }
 
     /**
      * Load class meta data event
      *
-     * @param LoadClassMetadataEventArgs $args
      *
      * @return void
      */
@@ -80,13 +75,13 @@ class TablePrefixSubscriber implements EventSubscriber
             return;
         }
 
-        if ($classMetadata->namespace == self::$ENTITY_NAMESPACE && in_array($classMetadata->name, self::$ENTITY_NAME))
+        if ($classMetadata->namespace == self::ENTITY_NAMESPACE && in_array($classMetadata->name, $this->entity_name))
         {
             // Do not re-apply the prefix when the table is already prefixed
-            if (false === strpos($classMetadata->getTableName(), $this->prefix))
+            if (!str_contains($classMetadata->getTableName(), $this->prefix))
             {
                 $tableName = $this->prefix . $classMetadata->getTableName();
-                $classMetadata->setPrimaryTable(array('name' => $tableName));
+                $classMetadata->setPrimaryTable(['name' => $tableName]);
             }
 
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping)
@@ -96,7 +91,7 @@ class TablePrefixSubscriber implements EventSubscriber
                     $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];
 
                     // Do not re-apply the prefix when the association is already prefixed
-                    if (false !== strpos($mappedTableName, $this->prefix))
+                    if (str_contains((string) $mappedTableName, $this->prefix))
                     {
                         continue;
                     }

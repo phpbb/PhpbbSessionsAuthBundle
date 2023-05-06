@@ -10,13 +10,10 @@
 
 namespace phpBB\SessionsAuthBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use phpBB\SessionsAuthBundle\Security\PhpbbUserProvider;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -40,7 +37,7 @@ class PhpbbSessionsAuthExtension extends Extension
         $container->setParameter('phpbb_sessions_auth.session.force_login', $config['session']['force_login']);
         $container->setParameter('phpbb_sessions_auth.roles', $config['roles']);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
     }
 }

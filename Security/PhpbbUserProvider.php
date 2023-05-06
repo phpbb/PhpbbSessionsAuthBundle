@@ -48,8 +48,8 @@ class PhpbbUserProvider implements UserProviderInterface
         if ( //check if have session and cookie ip (v6 or v4) are equal to session id
             !$session
             || (
-                strpos($session->getIp(), ':') !== false
-                && strpos($ip, ':') !== false
+                str_contains($session->getIp(), ':')
+                && str_contains($ip, ':')
                 && $this->shortIpv6($session->getIp(), 3) !== $this->shortIpv6($ip, 3)
             )
             || substr($session->getIp(), 0, strrpos($session->getIp(), '.')) !== substr($ip, 0, strrpos($ip, '.'))

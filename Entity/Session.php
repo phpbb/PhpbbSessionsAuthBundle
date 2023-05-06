@@ -9,8 +9,6 @@
 namespace phpBB\SessionsAuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Role\Role;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class Session
@@ -197,10 +195,7 @@ class Session
         return $this->time;
     }
 
-    /**
-     * @param mixed $time
-     */
-    public function setTime($time)
+    public function setTime(mixed $time)
     {
         $this->time = $time;
         return $this;
