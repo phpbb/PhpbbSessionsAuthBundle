@@ -8,6 +8,7 @@
  */
 namespace phpBB\SessionsAuthBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,412 +16,408 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Class User
  * @package phpbb\SessionsAuthBundle\Entity
- * @ORM\Entity(readOnly=true)
- * @ORM\Table(name="users")
  */
+#[ORM\Table(name: 'users')]
+#[ORM\Entity(readOnly: true)]
 class User implements UserInterface
 {
     /**
      * @var integer
-     * @ORM\Column(name="user_id", type="integer")
-     * @ORM\Id
      */
-    private $id;
+    #[ORM\Column(name: 'user_id')]
+    #[ORM\Id]
+    private ?int $id = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_type", type="boolean")
      */
-    private $type;
+    #[ORM\Column(name: 'user_type')]
+    private ?bool $type = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="group_id", type="integer")
      */
-    private $groupId;
+    #[ORM\Column(name: 'group_id')]
+    private ?int $groupId = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_permissions", type="text")
      */
-    private $permissions;
+    #[ORM\Column(name: 'user_permissions', type: Types::TEXT)]
+    private ?string $permissions = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_perm_from", type="integer")
      */
-    private $permFrom;
+    #[ORM\Column(name: 'user_perm_from')]
+    private ?int $permFrom = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_ip", type="string", length=40)
      */
-    private $ip;
+    #[ORM\Column(name: 'user_ip', length: 40)]
+    private ?string $ip = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_regdate", type="integer")
      */
-    private $regdate;
+    #[ORM\Column(name: 'user_regdate')]
+    private ?int $regdate = null;
 
     /**
      * @var string
-     * @ORM\Column(name="username", type="string")
      */
-    private $username;
+    #[ORM\Column(name: 'username')]
+    private ?string $username = null;
 
     /**
      * @var string
-     * @ORM\Column(name="username_clean", type="string")
      */
-    private $nameClean;
+    #[ORM\Column(name: 'username_clean')]
+    private ?string $nameClean = null;
 
     /**
-    * @var string
-    * @ORM\Column(name="user_password", type="string")
-    */
-    private $password;
+     * @var string
+     */
+    #[ORM\Column(name: 'user_password')]
+    private ?string $password = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_passchg", type="integer")
      */
-    private $passchg;
+    #[ORM\Column(name: 'user_passchg')]
+    private ?int $passchg = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_email", type="string")
      */
-    private $email;
+    #[ORM\Column(name: 'user_email')]
+    private ?string $email = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_birthday", type="string")
      */
-    private $birthday;
+    #[ORM\Column(name: 'user_birthday')]
+    private ?string $birthday = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_lastvisit", type="integer")
      */
-    private $lastvisit;
+    #[ORM\Column(name: 'user_lastvisit')]
+    private ?int $lastvisit = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_lastmark", type="integer")
      */
-    private $lastmark;
+    #[ORM\Column(name: 'user_lastmark')]
+    private ?int $lastmark = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_lastpost_time", type="integer")
      */
-    private $lastpostTime;
+    #[ORM\Column(name: 'user_lastpost_time')]
+    private ?int $lastpostTime = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_lastpage", type="string")
      */
-    private $lastpage;
+    #[ORM\Column(name: 'user_lastpage')]
+    private ?string $lastpage = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_last_confirm_key", type="string")
      */
-    private $lastConfirmKey;
+    #[ORM\Column(name: 'user_last_confirm_key')]
+    private ?string $lastConfirmKey = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_last_search", type="integer")
      */
-    private $lastSearch;
+    #[ORM\Column(name: 'user_last_search')]
+    private ?int $lastSearch = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_warnings", type="boolean")
      */
-    private $warnings;
+    #[ORM\Column(name: 'user_warnings')]
+    private ?bool $warnings = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_last_warning", type="integer")
      */
-    private $lastWarning;
+    #[ORM\Column(name: 'user_last_warning')]
+    private ?int $lastWarning = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_login_attempts", type="boolean")
      */
-    private $loginAttempts;
+    #[ORM\Column(name: 'user_login_attempts')]
+    private ?bool $loginAttempts = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_inactive_reason", type="boolean")
      */
-    private $inactiveReason;
+    #[ORM\Column(name: 'user_inactive_reason')]
+    private ?bool $inactiveReason = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_inactive_time", type="integer")
      */
-    private $inactiveTime;
+    #[ORM\Column(name: 'user_inactive_time')]
+    private ?int $inactiveTime = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_posts", type="integer")
      */
-    private $posts;
+    #[ORM\Column(name: 'user_posts')]
+    private ?int $posts = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_lang", type="string")
      */
-    private $lang;
+    #[ORM\Column(name: 'user_lang')]
+    private ?string $lang = null;
 
     /**
      * @var float
-     * @ORM\Column(name="user_timezone", type="decimal")
      */
-    private $timezone;
+    #[ORM\Column(name: 'user_timezone', type: Types::DECIMAL)]
+    private ?float $timezone = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_dateformat", type="string")
      */
-    private $dateformat;
+    #[ORM\Column(name: 'user_dateformat')]
+    private ?string $dateformat = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_style", type="integer")
      */
-    private $style;
+    #[ORM\Column(name: 'user_style')]
+    private ?int $style = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_rank", type="integer")
      */
-    private $rank;
+    #[ORM\Column(name: 'user_rank')]
+    private ?int $rank = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_colour", type="string")
      */
-    private $colour;
+    #[ORM\Column(name: 'user_colour')]
+    private ?string $colour = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_new_privmsg", type="integer")
      */
-    private $newPrivmsg;
+    #[ORM\Column(name: 'user_new_privmsg')]
+    private ?int $newPrivmsg = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_unread_privmsg", type="integer")
      */
-    private $unreadPrivmsg;
+    #[ORM\Column(name: 'user_unread_privmsg')]
+    private ?int $unreadPrivmsg = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_last_privmsg", type="integer")
      */
-    private $lastPrivmsg;
+    #[ORM\Column(name: 'user_last_privmsg')]
+    private ?int $lastPrivmsg = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_message_rules", type="boolean")
      */
-    private $messageRules;
+    #[ORM\Column(name: 'user_message_rules')]
+    private ?bool $messageRules = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_full_folder", type="integer")
      */
-    private $fullFolder;
+    #[ORM\Column(name: 'user_full_folder')]
+    private ?int $fullFolder = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_emailtime", type="integer")
      */
-    private $emailtime;
+    #[ORM\Column(name: 'user_emailtime')]
+    private ?int $emailtime = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_topic_show_days", type="smallint")
      */
-    private $topicShowDays;
+    #[ORM\Column(name: 'user_topic_show_days', type: Types::SMALLINT)]
+    private ?int $topicShowDays = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_topic_sortby_type", type="string")
      */
-    private $topicSortbyType;
+    #[ORM\Column(name: 'user_topic_sortby_type')]
+    private ?string $topicSortbyType = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_topic_sortby_dir", type="string")
      */
-    private $topicSortbyDir;
+    #[ORM\Column(name: 'user_topic_sortby_dir')]
+    private ?string $topicSortbyDir = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_post_show_days", type="smallint")
      */
-    private $postShowDays;
+    #[ORM\Column(name: 'user_post_show_days', type: Types::SMALLINT)]
+    private ?int $postShowDays = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_post_sortby_type", type="string")
      */
-    private $postSortbyType;
+    #[ORM\Column(name: 'user_post_sortby_type')]
+    private ?string $postSortbyType = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_post_sortby_dir", type="string")
      */
-    private $postSortbyDir;
+    #[ORM\Column(name: 'user_post_sortby_dir')]
+    private ?string $postSortbyDir = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_notify", type="boolean")
      */
-    private $notify;
+    #[ORM\Column(name: 'user_notify')]
+    private ?bool $notify = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_notify_pm", type="boolean")
      */
-    private $notifyPm;
+    #[ORM\Column(name: 'user_notify_pm')]
+    private ?bool $notifyPm = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_notify_type", type="boolean")
      */
-    private $notifyType;
+    #[ORM\Column(name: 'user_notify_type')]
+    private ?bool $notifyType = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_allow_pm", type="boolean")
      */
-    private $allowPm;
+    #[ORM\Column(name: 'user_allow_pm')]
+    private ?bool $allowPm = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_allow_viewonline", type="boolean")
      */
-    private $allowViewonline;
+    #[ORM\Column(name: 'user_allow_viewonline')]
+    private ?bool $allowViewonline = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_allow_viewemail", type="boolean")
      */
-    private $allowViewemail;
+    #[ORM\Column(name: 'user_allow_viewemail')]
+    private ?bool $allowViewemail = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_allow_massemail", type="boolean")
      */
-    private $allowMassemail;
+    #[ORM\Column(name: 'user_allow_massemail')]
+    private ?bool $allowMassemail = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_options", type="integer")
      */
-    private $options;
+    #[ORM\Column(name: 'user_options')]
+    private ?int $options = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_avatar", type="string")
      */
-    private $avatar;
+    #[ORM\Column(name: 'user_avatar')]
+    private ?string $avatar = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_avatar_type", type="boolean")
      */
-    private $avatarType;
+    #[ORM\Column(name: 'user_avatar_type')]
+    private ?bool $avatarType = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_avatar_width", type="smallint")
      */
-    private $avatarWidth;
+    #[ORM\Column(name: 'user_avatar_width', type: Types::SMALLINT)]
+    private ?int $avatarWidth = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_avatar_height", type="smallint")
      */
-    private $avatarHeight;
+    #[ORM\Column(name: 'user_avatar_height', type: Types::SMALLINT)]
+    private ?int $avatarHeight = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_sig", type="text")
      */
-    private $sig;
+    #[ORM\Column(name: 'user_sig', type: Types::TEXT)]
+    private ?string $sig = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_sig_bbcode_uid", type="string")
      */
-    private $sigBbcodeUid;
+    #[ORM\Column(name: 'user_sig_bbcode_uid')]
+    private ?string $sigBbcodeUid = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_sig_bbcode_bitfield", type="string")
      */
-    private $sigBbcodeBitfield;
+    #[ORM\Column(name: 'user_sig_bbcode_bitfield')]
+    private ?string $sigBbcodeBitfield = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_jabber", type="string")
      */
-    private $jabber;
+    #[ORM\Column(name: 'user_jabber')]
+    private ?string $jabber = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_actkey", type="string")
      */
-    private $actkey;
+    #[ORM\Column(name: 'user_actkey')]
+    private ?string $actkey = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_newpasswd", type="string")
      */
-    private $newpasswd;
+    #[ORM\Column(name: 'user_newpasswd')]
+    private ?string $newpasswd = null;
 
     /**
      * @var string
-     * @ORM\Column(name="user_form_salt", type="string")
      */
-    private $formSalt;
+    #[ORM\Column(name: 'user_form_salt')]
+    private ?string $formSalt = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_new", type="boolean")
      */
-    private $new;
+    #[ORM\Column(name: 'user_new')]
+    private ?bool $new = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="user_reminded", type="boolean")
      */
-    private $reminded;
+    #[ORM\Column(name: 'user_reminded')]
+    private ?bool $reminded = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="user_reminded_time", type="integer")
      */
-    private $remindedTime;
+    #[ORM\Column(name: 'user_reminded_time')]
+    private ?int $remindedTime = null;
 
     private array $roles = [];
 
-    /**
-     * @ORM\OneToMany(targetEntity="UserGroup", mappedBy="user")
-     */
+    #[ORM\OneToMany(targetEntity: 'UserGroup', mappedBy: 'user')]
     private ArrayCollection $groups;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Session", mappedBy="user")
-     */
+    #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'user')]
     private ArrayCollection $sessions;
 
     public function __construct()

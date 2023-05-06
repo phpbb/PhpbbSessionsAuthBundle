@@ -4,35 +4,25 @@ namespace phpBB\SessionsAuthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(readOnly=true)
- * @ORM\Table(name="sessions_keys")
- */
+#[ORM\Table(name: 'sessions_keys')]
+#[ORM\Entity(readOnly: true)]
 class SessionKey
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\Column(name="key_id", type="string", length=32, nullable=false)
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\Column(name: 'key_id', length: 32)]
     private ?string $key = null;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", nullable=false)
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', nullable: false)]
     private ?User $user = null;
 
-    /**
-     * @ORM\Column(name="last_ip", type="string", length=40)
-     */
+    #[ORM\Column(name: 'last_ip', length: 40)]
     private ?string $lastIp = null;
 
-    /**
-     * @ORM\Column(name="last_login", type="integer")
-     */
+    #[ORM\Column(name: 'last_login')]
     private ?int $lastLogin = null;
 
     public function getKey(): ?string

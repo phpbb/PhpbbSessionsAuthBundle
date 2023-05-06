@@ -13,91 +13,91 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Session
  * @package phpbb\SessionsAuthBundle\Entity
- * @ORM\Entity
- * @ORM\Table(name="sessions")
  */
+#[ORM\Table(name: 'sessions')]
+#[ORM\Entity]
 class Session
 {
     /**
      * @var string
-     * @ORM\Column(name="session_id", type="string")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    #[ORM\Column(name: 'session_id')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?string $id = null;
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="sessions")
-     * @ORM\JoinColumn(name="session_user_id", referencedColumnName="user_id")
      */
+    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'sessions')]
+    #[ORM\JoinColumn(name: 'session_user_id', referencedColumnName: 'user_id')]
     private $user;
 
     /**
      * @var integer
-     * @ORM\Column(name="session_forum_id", type="integer", nullable=false)
      */
-    private $forumId;
+    #[ORM\Column(name: 'session_forum_id')]
+    private ?int $forumId = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="session_last_visit", type="integer", nullable=false)
      */
-    private $lastVisit;
+    #[ORM\Column(name: 'session_last_visit')]
+    private ?int $lastVisit = null;
 
     /**
      * @var integer
-     * @ORM\Column(name="session_start", type="integer", nullable=false)
      */
-    private $start;
+    #[ORM\Column(name: 'session_start')]
+    private ?int $start = null;
 
     /**
      * @var
-     * @ORM\Column(name="session_time", type="integer", nullable=false)
      */
-    private $time;
+    #[ORM\Column(name: 'session_time')]
+    private ?int $time = null;
 
     /**
      * @var string
-     * @ORM\Column(name="session_ip", type="string", nullable=false)
      */
-    private $ip;
+    #[ORM\Column(name: 'session_ip')]
+    private ?string $ip = null;
 
     /**
      * @var string
-     * @ORM\Column(name="session_browser", type="string", length=150, nullable=false)
      */
-    private $browser;
+    #[ORM\Column(name: 'session_browser', length: 150)]
+    private ?string $browser = null;
 
     /**
      * @var string
-     * @ORM\Column(name="session_forwarded_for", type="string", length=255, nullable=false)
      */
-    private $forwardedFor;
+    #[ORM\Column(name: 'session_forwarded_for', length: 255)]
+    private ?string $forwardedFor = null;
 
     /**
      * @var string
-     * @ORM\Column(name="session_page", type="string", length=255, nullable=false)
      */
-    private $page;
+    #[ORM\Column(name: 'session_page', length: 255)]
+    private ?string $page = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="session_viewonline", type="boolean", nullable=false)
      */
-    private $viewonline;
+    #[ORM\Column(name: 'session_viewonline')]
+    private ?bool $viewonline = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="session_autologin", type="boolean", nullable=false)
      */
-    private $autologin;
+    #[ORM\Column(name: 'session_autologin')]
+    private ?bool $autologin = null;
 
     /**
      * @var boolean
-     * @ORM\Column(name="session_admin", type="boolean", nullable=false)
      */
-    private $admin;
+    #[ORM\Column(name: 'session_admin')]
+    private ?bool $admin = null;
 
     /**
      * @return string
