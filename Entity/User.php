@@ -7,6 +7,7 @@
 namespace phpBB\SessionsAuthBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,404 +16,209 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(readOnly: true)]
 class User implements UserInterface
 {
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_id')]
     #[ORM\Id]
     private ?int $id = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_type')]
     private ?bool $type = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'group_id')]
     private ?int $groupId = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_permissions', type: Types::TEXT)]
     private ?string $permissions = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_perm_from')]
     private ?int $permFrom = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_ip', length: 40)]
     private ?string $ip = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_regdate')]
     private ?int $regdate = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'username')]
     private ?string $username = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'username_clean')]
     private ?string $nameClean = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_password')]
     private ?string $password = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_passchg')]
     private ?int $passchg = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_email')]
     private ?string $email = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_birthday')]
     private ?string $birthday = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_lastvisit')]
     private ?int $lastvisit = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_lastmark')]
     private ?int $lastmark = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_lastpost_time')]
     private ?int $lastpostTime = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_lastpage')]
     private ?string $lastpage = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_last_confirm_key')]
     private ?string $lastConfirmKey = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_last_search')]
     private ?int $lastSearch = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_warnings')]
     private ?bool $warnings = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_last_warning')]
     private ?int $lastWarning = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_login_attempts')]
     private ?bool $loginAttempts = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_inactive_reason')]
     private ?bool $inactiveReason = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_inactive_time')]
     private ?int $inactiveTime = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_posts')]
     private ?int $posts = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_lang')]
     private ?string $lang = null;
 
-    /**
-     * @var float
-     */
-    #[ORM\Column(name: 'user_timezone', type: Types::DECIMAL)]
-    private ?float $timezone = null;
+    #[ORM\Column(name: 'user_timezone')]
+    private ?string $timezone = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_dateformat')]
     private ?string $dateformat = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_style')]
     private ?int $style = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_rank')]
     private ?int $rank = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_colour')]
     private ?string $colour = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_new_privmsg')]
     private ?int $newPrivmsg = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_unread_privmsg')]
     private ?int $unreadPrivmsg = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_last_privmsg')]
     private ?int $lastPrivmsg = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_message_rules')]
     private ?bool $messageRules = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_full_folder')]
     private ?int $fullFolder = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_emailtime')]
     private ?int $emailtime = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_topic_show_days', type: Types::SMALLINT)]
     private ?int $topicShowDays = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_topic_sortby_type')]
     private ?string $topicSortbyType = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_topic_sortby_dir')]
     private ?string $topicSortbyDir = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_post_show_days', type: Types::SMALLINT)]
     private ?int $postShowDays = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_post_sortby_type')]
     private ?string $postSortbyType = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_post_sortby_dir')]
     private ?string $postSortbyDir = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_notify')]
     private ?bool $notify = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_notify_pm')]
     private ?bool $notifyPm = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_notify_type')]
     private ?bool $notifyType = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_allow_pm')]
     private ?bool $allowPm = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_allow_viewonline')]
     private ?bool $allowViewonline = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_allow_viewemail')]
     private ?bool $allowViewemail = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_allow_massemail')]
     private ?bool $allowMassemail = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_options')]
     private ?int $options = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_avatar')]
     private ?string $avatar = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_avatar_type')]
     private ?bool $avatarType = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_avatar_width', type: Types::SMALLINT)]
     private ?int $avatarWidth = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_avatar_height', type: Types::SMALLINT)]
     private ?int $avatarHeight = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_sig', type: Types::TEXT)]
     private ?string $sig = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_sig_bbcode_uid')]
     private ?string $sigBbcodeUid = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_sig_bbcode_bitfield')]
     private ?string $sigBbcodeBitfield = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_jabber')]
     private ?string $jabber = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_actkey')]
     private ?string $actkey = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_newpasswd')]
     private ?string $newpasswd = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'user_form_salt')]
     private ?string $formSalt = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_new')]
     private ?bool $new = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_reminded')]
     private ?bool $reminded = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_reminded_time')]
     private ?int $remindedTime = null;
 
     private array $roles = [];
 
     #[ORM\OneToMany(targetEntity: 'UserGroup', mappedBy: 'user')]
-    private ArrayCollection $groups;
+    private Collection $groups;
 
     #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'user')]
-    private ArrayCollection $sessions;
+    private Collection $sessions;
 
     public function __construct()
     {
@@ -420,192 +226,115 @@ class User implements UserInterface
         $this->sessions = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return User
-     */
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @param bool $type
-     *
-     * @return User
-     */
-    public function setType($type)
+    public function setType(bool $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getType()
+    public function getType(): ?bool
     {
         return $this->type;
     }
 
-    /**
-     * @param int $groupId
-     *
-     * @return User
-     */
-    public function setGroupId($groupId)
+    public function setGroupId(int $groupId): self
     {
         $this->groupId = $groupId;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getGroupId()
+    public function getGroupId(): ?int
     {
         return $this->groupId;
     }
 
-    /**
-     * @param string $permissions
-     *
-     * @return User
-     */
-    public function setPermissions($permissions)
+    public function setPermissions(string $permissions): self
     {
         $this->permissions = $permissions;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPermissions()
+    public function getPermissions(): ?string
     {
         return $this->permissions;
     }
 
-    /**
-     * @param int $permFrom
-     *
-     * @return User
-     */
-    public function setPermFrom($permFrom)
+    public function setPermFrom(int $permFrom): self
     {
         $this->permFrom = $permFrom;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPermFrom()
+    public function getPermFrom(): ?int
     {
         return $this->permFrom;
     }
 
-    /**
-     * @param string $ip
-     *
-     * @return User
-     */
-    public function setIp($ip)
+    public function setIp(string $ip): self
     {
         $this->ip = $ip;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getIp()
+    public function getIp(): ?string
     {
         return $this->ip;
     }
 
-    /**
-     * @param int $regdate
-     *
-     * @return User
-     */
-    public function setRegdate($regdate)
+    public function setRegdate(int $regdate): self
     {
         $this->regdate = $regdate;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getRegdate()
+    public function getRegdate(): ?int
     {
         return $this->regdate;
     }
 
-    /**
-     * @param string $username
-     *
-     * @return User
-     */
-    public function setUsername($username)
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $usernameClean
-     *
-     * @return User
-     */
-    public function setUsernameClean($usernameClean)
+    public function setUsernameClean(string $usernameClean): self
     {
         $this->nameClean = $usernameClean;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsernameClean()
+    public function getUsernameClean(): ?string
     {
         return $this->nameClean;
     }
 
-    /**
-     * @param string $password
-     *
-     * @return User
-     */
-    public function setPassword($password)
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -625,1107 +354,667 @@ class User implements UserInterface
      *
      * @return string
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    /**
-     * @param int $passchg
-     *
-     * @return User
-     */
-    public function setPasschg($passchg)
+    public function setPasschg(int $passchg): self
     {
         $this->passchg = $passchg;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPasschg()
+    public function getPasschg(): ?int
     {
         return $this->passchg;
     }
 
-    /**
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $birthday
-     *
-     * @return User
-     */
-    public function setBirthday($birthday)
+    public function setBirthday(string $birthday): self
     {
         $this->birthday = $birthday;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getBirthday()
+    public function getBirthday(): ?string
     {
         return $this->birthday;
     }
 
-    /**
-     * @param int $lastvisit
-     *
-     * @return User
-     */
-    public function setLastvisit($lastvisit)
+    public function setLastvisit(int $lastvisit): self
     {
         $this->lastvisit = $lastvisit;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastvisit()
+    public function getLastvisit(): ?int
     {
         return $this->lastvisit;
     }
 
-    /**
-     * @param int $lastmark
-     *
-     * @return User
-     */
-    public function setLastmark($lastmark)
+    public function setLastmark(int $lastmark): self
     {
         $this->lastmark = $lastmark;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastmark()
+    public function getLastmark(): ?int
     {
         return $this->lastmark;
     }
 
-    /**
-     * @param int $lastpostTime
-     *
-     * @return User
-     */
-    public function setLastpostTime($lastpostTime)
+    public function setLastpostTime(int $lastpostTime): self
     {
         $this->lastpostTime = $lastpostTime;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastpostTime()
+    public function getLastpostTime(): ?int
     {
         return $this->lastpostTime;
     }
 
-    /**
-     * @param string $lastpage
-     *
-     * @return User
-     */
-    public function setLastpage($lastpage)
+    public function setLastpage(string $lastpage): self
     {
         $this->lastpage = $lastpage;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLastpage()
+    public function getLastpage(): ?string
     {
         return $this->lastpage;
     }
 
-    /**
-     * @param string $lastConfirmKey
-     *
-     * @return User
-     */
-    public function setLastConfirmKey($lastConfirmKey)
+    public function setLastConfirmKey(string $lastConfirmKey): self
     {
         $this->lastConfirmKey = $lastConfirmKey;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLastConfirmKey()
+    public function getLastConfirmKey(): ?string
     {
         return $this->lastConfirmKey;
     }
 
-    /**
-     * @param int $lastSearch
-     *
-     * @return User
-     */
-    public function setLastSearch($lastSearch)
+    public function setLastSearch(int $lastSearch): self
     {
         $this->lastSearch = $lastSearch;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastSearch()
+    public function getLastSearch(): ?int
     {
         return $this->lastSearch;
     }
 
-    /**
-     * @param bool $warnings
-     *
-     * @return User
-     */
-    public function setWarnings($warnings)
+    public function setWarnings(bool $warnings): self
     {
         $this->warnings = $warnings;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getWarnings()
+    public function getWarnings(): ?bool
     {
         return $this->warnings;
     }
 
-    /**
-     * @param int $lastWarning
-     *
-     * @return User
-     */
-    public function setLastWarning($lastWarning)
+    public function setLastWarning(int $lastWarning): self
     {
         $this->lastWarning = $lastWarning;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastWarning()
+    public function getLastWarning(): ?int
     {
         return $this->lastWarning;
     }
 
-    /**
-     * @param bool $loginAttempts
-     *
-     * @return User
-     */
-    public function setLoginAttempts($loginAttempts)
+    public function setLoginAttempts(bool $loginAttempts): self
     {
         $this->loginAttempts = $loginAttempts;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getLoginAttempts()
+    public function getLoginAttempts(): ?bool
     {
         return $this->loginAttempts;
     }
 
-    /**
-     * @param bool $inactiveReason
-     *
-     * @return User
-     */
-    public function setInactiveReason($inactiveReason)
+    public function setInactiveReason(bool $inactiveReason): self
     {
         $this->inactiveReason = $inactiveReason;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getInactiveReason()
+    public function getInactiveReason(): ?bool
     {
         return $this->inactiveReason;
     }
 
-    /**
-     * @param int $inactiveTime
-     *
-     * @return User
-     */
-    public function setInactiveTime($inactiveTime)
+    public function setInactiveTime(int $inactiveTime): self
     {
         $this->inactiveTime = $inactiveTime;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getInactiveTime()
+    public function getInactiveTime(): ?int
     {
         return $this->inactiveTime;
     }
 
-    /**
-     * @param int $posts
-     *
-     * @return User
-     */
-    public function setPosts($posts)
+    public function setPosts(int $posts): self
     {
         $this->posts = $posts;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosts()
+    public function getPosts(): ?int
     {
         return $this->posts;
     }
 
-    /**
-     * @param string $lang
-     *
-     * @return User
-     */
-    public function setLang($lang)
+    public function setLang(string $lang): self
     {
         $this->lang = $lang;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLang()
+    public function getLang(): ?string
     {
         return $this->lang;
     }
 
-    /**
-     * @param float $timezone
-     *
-     * @return User
-     */
-    public function setTimezone($timezone)
+    public function setTimezone(string $timezone): self
     {
         $this->timezone = $timezone;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getTimezone()
+    public function getTimezone(): ?string
     {
         return $this->timezone;
     }
 
-    /**
-     * @param string $dateformat
-     *
-     * @return User
-     */
-    public function setDateformat($dateformat)
+    public function setDateformat(string $dateformat): self
     {
         $this->dateformat = $dateformat;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDateformat()
+    public function getDateformat(): ?string
     {
         return $this->dateformat;
     }
 
-    /**
-     * @param int $style
-     *
-     * @return User
-     */
-    public function setStyle($style)
+    public function setStyle(int $style): self
     {
         $this->style = $style;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getStyle()
+    public function getStyle(): ?int
     {
         return $this->style;
     }
 
-    /**
-     * @param int $rank
-     *
-     * @return User
-     */
-    public function setRank($rank)
+    public function setRank(int $rank): self
     {
         $this->rank = $rank;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getRank()
+    public function getRank(): ?int
     {
         return $this->rank;
     }
 
-    /**
-     * @param string $colour
-     *
-     * @return User
-     */
-    public function setColour($colour)
+    public function setColour(string $colour): self
     {
         $this->colour = $colour;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getColour()
+    public function getColour(): ?string
     {
         return $this->colour;
     }
 
-    /**
-     * @param int $newPrivmsg
-     *
-     * @return User
-     */
-    public function setNewPrivmsg($newPrivmsg)
+    public function setNewPrivmsg(int $newPrivmsg): self
     {
         $this->newPrivmsg = $newPrivmsg;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getNewPrivmsg()
+    public function getNewPrivmsg(): ?int
     {
         return $this->newPrivmsg;
     }
 
-    /**
-     * @param int $unreadPrivmsg
-     *
-     * @return User
-     */
-    public function setUnreadPrivmsg($unreadPrivmsg)
+    public function setUnreadPrivmsg(int $unreadPrivmsg): self
     {
         $this->unreadPrivmsg = $unreadPrivmsg;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getUnreadPrivmsg()
+    public function getUnreadPrivmsg(): ?int
     {
         return $this->unreadPrivmsg;
     }
 
-    /**
-     * @param int $lastPrivmsg
-     *
-     * @return User
-     */
-    public function setLastPrivmsg($lastPrivmsg)
+    public function setLastPrivmsg(int $lastPrivmsg): self
     {
         $this->lastPrivmsg = $lastPrivmsg;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastPrivmsg()
+    public function getLastPrivmsg(): ?int
     {
         return $this->lastPrivmsg;
     }
 
-    /**
-     * @param bool $messageRules
-     *
-     * @return User
-     */
-    public function setMessageRules($messageRules)
+    public function setMessageRules(bool $messageRules): self
     {
         $this->messageRules = $messageRules;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getMessageRules()
+    public function getMessageRules(): ?bool
     {
         return $this->messageRules;
     }
 
-    /**
-     * @param int $fullFolder
-     *
-     * @return User
-     */
-    public function setFullFolder($fullFolder)
+    public function setFullFolder(int $fullFolder): self
     {
         $this->fullFolder = $fullFolder;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getFullFolder()
+    public function getFullFolder(): ?int
     {
         return $this->fullFolder;
     }
 
-    /**
-     * @param int $emailtime
-     *
-     * @return User
-     */
-    public function setEmailtime($emailtime)
+    public function setEmailtime(int $emailtime): self
     {
         $this->emailtime = $emailtime;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getEmailtime()
+    public function getEmailtime(): ?int
     {
         return $this->emailtime;
     }
 
-    /**
-     * @param int $topicShowDays
-     *
-     * @return User
-     */
-    public function setTopicShowDays($topicShowDays)
+    public function setTopicShowDays(int $topicShowDays): self
     {
         $this->topicShowDays = $topicShowDays;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getTopicShowDays()
+    public function getTopicShowDays(): ?int
     {
         return $this->topicShowDays;
     }
 
-    /**
-     * @param string $topicSortbyType
-     *
-     * @return User
-     */
-    public function setTopicSortbyType($topicSortbyType)
+    public function setTopicSortbyType(string $topicSortbyType): self
     {
         $this->topicSortbyType = $topicSortbyType;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTopicSortbyType()
+    public function getTopicSortbyType(): ?string
     {
         return $this->topicSortbyType;
     }
 
-    /**
-     * @param string $topicSortbyDir
-     *
-     * @return User
-     */
-    public function setTopicSortbyDir($topicSortbyDir)
+    public function setTopicSortbyDir(string $topicSortbyDir): self
     {
         $this->topicSortbyDir = $topicSortbyDir;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTopicSortbyDir()
+    public function getTopicSortbyDir(): ?string
     {
         return $this->topicSortbyDir;
     }
 
-    /**
-     * @param int $postShowDays
-     *
-     * @return User
-     */
-    public function setPostShowDays($postShowDays)
+    public function setPostShowDays(int $postShowDays): self
     {
         $this->postShowDays = $postShowDays;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPostShowDays()
+    public function getPostShowDays(): ?int
     {
         return $this->postShowDays;
     }
 
-    /**
-     * @param string $postSortbyType
-     *
-     * @return User
-     */
-    public function setPostSortbyType($postSortbyType)
+    public function setPostSortbyType(string $postSortbyType): self
     {
         $this->postSortbyType = $postSortbyType;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPostSortbyType()
+    public function getPostSortbyType(): ?string
     {
         return $this->postSortbyType;
     }
 
-    /**
-     * @param string $postSortbyDir
-     *
-     * @return User
-     */
-    public function setPostSortbyDir($postSortbyDir)
+    public function setPostSortbyDir(string $postSortbyDir): self
     {
         $this->postSortbyDir = $postSortbyDir;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPostSortbyDir()
+    public function getPostSortbyDir(): ?string
     {
         return $this->postSortbyDir;
     }
 
-    /**
-     * @param bool $notify
-     *
-     * @return User
-     */
-    public function setNotify($notify)
+    public function setNotify(bool $notify): self
     {
         $this->notify = $notify;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getNotify()
+    public function getNotify(): ?bool
     {
         return $this->notify;
     }
 
-    /**
-     * @param bool $notifyPm
-     *
-     * @return User
-     */
-    public function setNotifyPm($notifyPm)
+    public function setNotifyPm(bool $notifyPm): self
     {
         $this->notifyPm = $notifyPm;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getNotifyPm()
+    public function getNotifyPm(): ?bool
     {
         return $this->notifyPm;
     }
 
-    /**
-     * @param bool $notifyType
-     *
-     * @return User
-     */
-    public function setNotifyType($notifyType)
+    public function setNotifyType(bool $notifyType): self
     {
         $this->notifyType = $notifyType;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getNotifyType()
+    public function getNotifyType(): ?bool
     {
         return $this->notifyType;
     }
 
-    /**
-     * @param bool $allowPm
-     *
-     * @return User
-     */
-    public function setAllowPm($allowPm)
+    public function setAllowPm(bool $allowPm): self
     {
         $this->allowPm = $allowPm;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAllowPm()
+    public function getAllowPm(): ?bool
     {
         return $this->allowPm;
     }
 
-    /**
-     * @param bool $allowViewonline
-     *
-     * @return User
-     */
-    public function setAllowViewonline($allowViewonline)
+    public function setAllowViewonline(bool $allowViewonline): self
     {
         $this->allowViewonline = $allowViewonline;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAllowViewonline()
+    public function getAllowViewonline(): ?bool
     {
         return $this->allowViewonline;
     }
 
-    /**
-     * @param bool $allowViewemail
-     *
-     * @return User
-     */
-    public function setAllowViewemail($allowViewemail)
+    public function setAllowViewemail(bool $allowViewemail): self
     {
         $this->allowViewemail = $allowViewemail;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAllowViewemail()
+    public function getAllowViewemail(): ?bool
     {
         return $this->allowViewemail;
     }
 
-    /**
-     * @param bool $allowMassemail
-     *
-     * @return User
-     */
-    public function setAllowMassemail($allowMassemail)
+    public function setAllowMassemail(bool $allowMassemail): self
     {
         $this->allowMassemail = $allowMassemail;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAllowMassemail()
+    public function getAllowMassemail(): ?bool
     {
         return $this->allowMassemail;
     }
 
-    /**
-     * @param int $options
-     *
-     * @return User
-     */
-    public function setOptions($options)
+    public function setOptions(int $options): self
     {
         $this->options = $options;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getOptions()
+    public function getOptions(): ?int
     {
         return $this->options;
     }
 
-    /**
-     * @param string $avatar
-     *
-     * @return User
-     */
-    public function setAvatar($avatar)
+    public function setAvatar(string $avatar): self
     {
         $this->avatar = $avatar;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAvatar()
+    public function getAvatar(): ?string
     {
         return $this->avatar;
     }
 
-    /**
-     * @param bool $avatarType
-     *
-     * @return User
-     */
-    public function setAvatarType($avatarType)
+    public function setAvatarType(bool $avatarType): self
     {
         $this->avatarType = $avatarType;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAvatarType()
+    public function getAvatarType(): ?bool
     {
         return $this->avatarType;
     }
 
-    /**
-     * @param int $avatarWidth
-     *
-     * @return User
-     */
-    public function setAvatarWidth($avatarWidth)
+    public function setAvatarWidth(int $avatarWidth): self
     {
         $this->avatarWidth = $avatarWidth;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAvatarWidth()
+    public function getAvatarWidth(): ?int
     {
         return $this->avatarWidth;
     }
 
-    /**
-     * @param int $avatarHeight
-     *
-     * @return User
-     */
-    public function setAvatarHeight($avatarHeight)
+    public function setAvatarHeight(int $avatarHeight): self
     {
         $this->avatarHeight = $avatarHeight;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAvatarHeight()
+    public function getAvatarHeight(): ?int
     {
         return $this->avatarHeight;
     }
 
-    /**
-     * @param string $sig
-     *
-     * @return User
-     */
-    public function setSig($sig)
+    public function setSig(string $sig): self
     {
         $this->sig = $sig;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSig()
+    public function getSig(): ?string
     {
         return $this->sig;
     }
 
-    /**
-     * @param string $sigBbcodeUid
-     *
-     * @return User
-     */
-    public function setSigBbcodeUid($sigBbcodeUid)
+    public function setSigBbcodeUid(string $sigBbcodeUid): self
     {
         $this->sigBbcodeUid = $sigBbcodeUid;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSigBbcodeUid()
+    public function getSigBbcodeUid(): ?string
     {
         return $this->sigBbcodeUid;
     }
 
-    /**
-     * @param string $sigBbcodeBitfield
-     *
-     * @return User
-     */
-    public function setSigBbcodeBitfield($sigBbcodeBitfield)
+    public function setSigBbcodeBitfield(string $sigBbcodeBitfield): self
     {
         $this->sigBbcodeBitfield = $sigBbcodeBitfield;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSigBbcodeBitfield()
+    public function getSigBbcodeBitfield(): ?string
     {
         return $this->sigBbcodeBitfield;
     }
 
-    /**
-     * @param string $jabber
-     *
-     * @return User
-     */
-    public function setJabber($jabber)
+    public function setJabber(string $jabber): self
     {
         $this->jabber = $jabber;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getJabber()
+    public function getJabber(): ?string
     {
         return $this->jabber;
     }
 
-    /**
-     * @param string $actkey
-     *
-     * @return User
-     */
-    public function setActkey($actkey)
+    public function setActkey(string $actkey): self
     {
         $this->actkey = $actkey;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getActkey()
+    public function getActkey(): ?string
     {
         return $this->actkey;
     }
 
-    /**
-     * @param string $newpasswd
-     *
-     * @return User
-     */
-    public function setNewpasswd($newpasswd)
+    public function setNewpasswd(string $newpasswd): self
     {
         $this->newpasswd = $newpasswd;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getNewpasswd()
+    public function getNewpasswd(): ?string
     {
         return $this->newpasswd;
     }
 
-    /**
-     * @param string $formSalt
-     *
-     * @return User
-     */
-    public function setFormSalt($formSalt)
+    public function setFormSalt(string $formSalt): self
     {
         $this->formSalt = $formSalt;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFormSalt()
+    public function getFormSalt(): ?string
     {
         return $this->formSalt;
     }
 
-    /**
-     * @param bool $new
-     *
-     * @return User
-     */
-    public function setNew($new)
+    public function setNew(bool $new): self
     {
         $this->new = $new;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getNew()
+    public function getNew(): ?bool
     {
         return $this->new;
     }
 
-    /**
-     * @param bool $reminded
-     *
-     * @return User
-     */
-    public function setReminded($reminded)
+    public function setReminded(bool $reminded): self
     {
         $this->reminded = $reminded;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getReminded()
+    public function getReminded(): ?bool
     {
         return $this->reminded;
     }
 
-    /**
-     * @param int $remindedTime
-     *
-     * @return User
-     */
-    public function setRemindedTime($remindedTime)
+    public function setRemindedTime(int $remindedTime): self
     {
         $this->remindedTime = $remindedTime;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getRemindedTime()
+    public function getRemindedTime(): ?int
     {
         return $this->remindedTime;
     }
@@ -1735,43 +1024,35 @@ class User implements UserInterface
         return $this->roles;
     }
 
-    public function setRoles(array $roles)
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getGroups()
+    public function getGroups(): Collection
     {
         return $this->groups;
     }
 
-    /**
-     * @param ArrayCollection $groups
-     */
-    public function setGroups($groups)
+    public function setGroups(Collection $groups): self
     {
         $this->groups = $groups;
+
+        return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSessions()
+    public function getSessions(): Collection
     {
         return $this->sessions;
     }
 
-    /**
-     * @param ArrayCollection $sessions
-     */
-    public function setSessions($sessions)
+    public function setSessions(Collection $sessions): self
     {
         $this->sessions = $sessions;
+
+        return $this;
     }
 
     /**
@@ -1793,7 +1074,7 @@ class User implements UserInterface
      */
     public function getName()
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**

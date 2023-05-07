@@ -12,327 +12,198 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 class Session
 {
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'session_id')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private ?string $id = null;
 
-    /**
-     * @var User
-     */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'session_user_id', referencedColumnName: 'user_id')]
-    private $user;
+    private User $user;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'session_forum_id')]
     private ?int $forumId = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'session_last_visit')]
     private ?int $lastVisit = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'session_start')]
     private ?int $start = null;
 
     #[ORM\Column(name: 'session_time')]
     private ?int $time = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'session_ip')]
     private ?string $ip = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'session_browser', length: 150)]
     private ?string $browser = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'session_forwarded_for', length: 255)]
     private ?string $forwardedFor = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'session_page', length: 255)]
     private ?string $page = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'session_viewonline')]
     private ?bool $viewonline = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'session_autologin')]
     private ?bool $autologin = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'session_admin')]
     private ?bool $admin = null;
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     */
-    public function setId($id)
+    public function setId(string $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return User
-     */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    /**
-     * @param User $user
-     */
-    public function setUser($user)
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * @param int $ForumId
-     *
-     * @return Sessions
-     */
-    public function setForumId($forumId)
+    public function setForumId($forumId): self
     {
         $this->forumId = $forumId;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getForumId()
+    public function getForumId(): ?int
     {
         return $this->forumId;
     }
 
-    /**
-     * @param int $lastVisit
-     *
-     * @return Sessions
-     */
-    public function setLastVisit($lastVisit)
+    public function setLastVisit(int $lastVisit): self
     {
         $this->lastVisit = $lastVisit;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastVisit()
+    public function getLastVisit(): ?int
     {
         return $this->lastVisit;
     }
 
-    /**
-     * @param int $start
-     *
-     * @return Sessions
-     */
-    public function setStart($start)
+    public function setStart(int $start): self
     {
         $this->start = $start;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getStart()
+    public function getStart(): ?int
     {
         return $this->start;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTime()
+    public function getTime(): ?int
     {
         return $this->time;
     }
 
-    public function setTime(mixed $time)
+    public function setTime(mixed $time): self
     {
         $this->time = $time;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getIp()
+    public function getIp(): ?string
     {
         return $this->ip;
     }
 
-    /**
-     * @param string $ip
-     */
-    public function setIp($ip)
+    public function setIp(string $ip): self
     {
         $this->ip = $ip;
 
         return $this;
     }
 
-    /**
-     * @param string $browser
-     *
-     * @return Sessions
-     */
-    public function setBrowser($browser)
+    public function setBrowser(string $browser): self
     {
         $this->browser = $browser;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getBrowser()
+    public function getBrowser(): ?string
     {
         return $this->browser;
     }
 
-    /**
-     * @param string $forwardedFor
-     *
-     * @return Sessions
-     */
-    public function setForwardedFor($forwardedFor)
+    public function setForwardedFor(string $forwardedFor): self
     {
         $this->forwardedFor = $forwardedFor;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getForwardedFor()
+    public function getForwardedFor(): ?string
     {
         return $this->forwardedFor;
     }
 
-    /**
-     * @param string $page
-     *
-     * @return Sessions
-     */
-    public function setPage($page)
+    public function setPage(string $page): self
     {
         $this->page = $page;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPage()
+    public function getPage(): ?string
     {
         return $this->page;
     }
 
-    /**
-     * @param bool $viewonline
-     *
-     * @return Sessions
-     */
-    public function setViewonline($viewonline)
+    public function setViewonline(bool $viewonline): self
     {
         $this->viewonline = $viewonline;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getViewonline()
+    public function getViewonline(): ?bool
     {
         return $this->viewonline;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAutologin()
+    public function getAutologin(): ?bool
     {
         return $this->autologin;
     }
 
-    /**
-     * @param bool $autologin
-     *
-     * @return Session
-     */
-    public function setAutologin($autologin)
+    public function setAutologin(bool $autologin): self
     {
         $this->autologin = $autologin;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAdmin()
+    public function getAdmin(): ?bool
     {
         return $this->admin;
     }
 
-    /**
-     * @param bool $admin
-     *
-     * @return Sessions
-     */
-    public function setAdmin($admin)
+    public function setAdmin(bool $admin): self
     {
         $this->admin = $admin;
 

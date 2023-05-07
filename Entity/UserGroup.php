@@ -12,108 +12,64 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(readOnly: true)]
 class UserGroup
 {
-    /**
-     * @var int
-     */
     #[ORM\Id]
     #[ORM\Column(name: 'group_id')]
     private ?int $groupId = null;
 
-    /**
-     * @var User
-     */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'groups')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
-    private $user;
+    private User $user;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'group_leader')]
     private ?bool $groupLeader = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_pending')]
     private ?bool $userPending = null;
 
-    /**
-     * @param int $groupId
-     *
-     * @return UserGroup
-     */
-    public function setGroupId($groupId)
+    public function setGroupId(int $groupId): self
     {
         $this->groupId = $groupId;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getGroupId()
+    public function getGroupId(): ?int
     {
         return $this->groupId;
     }
 
-    /**
-     * @param int $user
-     *
-     * @return UserGroup
-     */
-    public function setUser($user)
+    public function setUser(int $user): self
     {
-        $this->userId = $user;
+        $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    /**
-     * @param bool $groupLeader
-     *
-     * @return UserGroup
-     */
-    public function setGroupLeader($groupLeader)
+    public function setGroupLeader(bool $groupLeader): self
     {
         $this->groupLeader = $groupLeader;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getGroupLeader()
+    public function getGroupLeader(): ?bool
     {
         return $this->groupLeader;
     }
 
-    /**
-     * @param bool $userPending
-     *
-     * @return UserGroup
-     */
-    public function setUserPending($userPending)
+    public function setUserPending(bool $userPending): self
     {
         $this->userPending = $userPending;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getUserPending()
+    public function getUserPending(): ?bool
     {
         return $this->userPending;
     }
