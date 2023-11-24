@@ -1,9 +1,9 @@
 services:
-    phpBB\SessionsAuthBundle\Subscriber\TablePrefixSubscriber:
+    phpBB\SessionsAuthBundle\EventListener\TablePrefixListener:
         public: false
         arguments: ["%phpbb_sessions_auth.database.prefix%"]
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: loadClassMetadata }
 
     phpBB\SessionsAuthBundle\Security\PhpbbSessionAuthenticator:
         public: false
